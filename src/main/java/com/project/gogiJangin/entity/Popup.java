@@ -8,20 +8,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Franchise {
+public class Popup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private String frId;
-
-    @Column
-    private String name;
-
-    @Column
-    private String contact;
-
-    @ManyToOne
-    @JoinColumn(name = "rg_id")
-    private Region region;
+    private String puId;
 }

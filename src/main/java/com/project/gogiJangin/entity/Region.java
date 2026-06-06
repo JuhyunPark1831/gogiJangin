@@ -1,17 +1,17 @@
 package com.project.gogiJangin.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Region {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     public String rgId;
 
