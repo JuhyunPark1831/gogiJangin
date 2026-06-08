@@ -13,7 +13,7 @@ public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    public String rgId;
+    public Long rgId;
 
     @Column
     public String regionName;

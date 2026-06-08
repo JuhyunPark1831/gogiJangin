@@ -14,7 +14,7 @@ public class Review {
 
     @Id
     @Column
-    private String rvId;
+    private Long rvId;
 
     @Column
     private int star;

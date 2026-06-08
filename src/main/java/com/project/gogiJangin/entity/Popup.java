@@ -13,5 +13,11 @@ public class Popup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private String puId;
+    private Long puId;
+
+    @Column
+    private String title;
+
+    @Column
+    private String imageUrl;
 }

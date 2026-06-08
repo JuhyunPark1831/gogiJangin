@@ -13,7 +13,7 @@ public class Franchise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private String frId;
+    private Long frId;
 
     @Column
     private String name;
