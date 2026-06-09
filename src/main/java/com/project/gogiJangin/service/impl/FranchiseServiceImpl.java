@@ -73,5 +73,6 @@ public class FranchiseServiceImpl implements FranchiseService {
                 .first(franchisePage.isFirst())
                 .last(franchisePage.isLast())
                 .build();
+
     }
 }
