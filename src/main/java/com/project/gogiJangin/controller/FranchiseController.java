@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -38,5 +39,18 @@ public class FranchiseController {
     @ResponseBody
     public CustomResponseEntity<PageResponse<FranchiseResponseDto>> viewFranchiseList(Pageable pageable) {
         return CustomResponseEntity.success(null, franchiseService.getFranchiseList(pageable));
+    }
+
+    @PutMapping("/api/editFranchise.do")
+    @ResponseBody
+    public CustomResponseEntity<Long> editFranchise(@RequestBody FranchiseRequestDto requestDto) {
+        return CustomResponseEntity.success("가맹문의가 변경되었습니다", franchiseService.updateFranchise(requestDto));
+    }
+
+    @DeleteMapping("/api/deleteFranchise.do/{frId}")
+    @ResponseBody
+    public CustomResponseEntity<Object> deleteFranchise(@PathVariable Long frId) {
+        franchiseService.deleteFranchise(frId);
+        return CustomResponseEntity.success("가맹문의가 삭제되었습니다", null);
     }
 }

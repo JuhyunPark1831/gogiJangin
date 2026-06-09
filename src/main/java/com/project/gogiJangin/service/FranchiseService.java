@@ -10,4 +10,6 @@ public interface FranchiseService {
     Long addFranchise(FranchiseRequestDto requestDto);
     FranchiseResponseDto getFranchiseDetail(Long frId);
     PageResponse<FranchiseResponseDto> getFranchiseList(Pageable pageable);
+    Long updateFranchise(FranchiseRequestDto requestDto);
+    void deleteFranchise(Long frId);
 }

@@ -1,5 +1,6 @@
 package com.project.gogiJangin.entity;
 
+import com.project.gogiJangin.dto.franchise.FranchiseRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,5 +35,11 @@ public class Franchise extends BaseEntity {
         this.frName = frName;
         this.frContact = frContact;
         this.frRegion = frRegion;
+    }
+
+    public void update(FranchiseRequestDto requestDto, Region region) {
+        this.frName = requestDto.getFrName();
+        this.frContact = requestDto.getFrContact();
+        this.frRegion = region;
     }
 }
