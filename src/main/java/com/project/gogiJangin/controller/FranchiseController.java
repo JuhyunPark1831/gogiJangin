@@ -1,20 +1,14 @@
 package com.project.gogiJangin.controller;
 
-import com.project.gogiJangin.common.exception.CustomException;
-import com.project.gogiJangin.common.exception.ErrorCode;
 import com.project.gogiJangin.common.response.CustomResponseEntity;
 import com.project.gogiJangin.dto.PageResponse;
 import com.project.gogiJangin.dto.franchise.FranchiseRequestDto;
 import com.project.gogiJangin.dto.franchise.FranchiseResponseDto;
 import com.project.gogiJangin.service.FranchiseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
