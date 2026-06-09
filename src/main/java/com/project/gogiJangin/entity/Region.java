@@ -6,15 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "TB_REGION")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Region {
+public class Region extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "RG_ID")
     public Long rgId;
 
-    @Column
-    public String regionName;
+    @Column(name = "RG_NAME")
+    public String rgName;
 }

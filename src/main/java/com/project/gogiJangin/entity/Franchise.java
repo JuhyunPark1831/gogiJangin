@@ -1,27 +1,45 @@
 package com.project.gogiJangin.entity;
 
+import com.project.gogiJangin.dto.franchise.FranchiseRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "TB_FRANCHISE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Franchise {
+public class Franchise extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "FR_ID")
     private Long frId;
 
-    @Column
-    private String name;
+    @Column(name = "FR_NAME")
+    private String frName;
 
-    @Column
-    private String contact;
+    @Column(name = "FR_CONTACT")
+    private String frContact;
 
     @ManyToOne
-    @JoinColumn(name = "rg_id")
-    private Region region;
+    @JoinColumn(name = "FR_RG_ID")
+    private Region frRegion;
+
+    @Builder
+    public Franchise(String frName,
+                     String frContact,
+                     Region frRegion) {
+        this.frName = frName;
+        this.frContact = frContact;
+        this.frRegion = frRegion;
+    }
+
+    public void update(FranchiseRequestDto requestDto, Region region) {
+        this.frName = requestDto.getFrName();
+        this.frContact = requestDto.getFrContact();
+        this.frRegion = region;
+    }
 }
