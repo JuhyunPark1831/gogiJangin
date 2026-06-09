@@ -3,25 +3,27 @@ package com.project.gogiJangin.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "TB_REVIEW")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Review {
+public class Review extends BaseEntity {
 
     @Id
-    @Column
+    @Column(name = "RV_ID")
     private Long rvId;
 
-    @Column
-    private int star;
+    @Column(name = "RV_STAR")
+    private int rvStar;
 
-    @Column
-    private String content;
+    @Column(name = "RV_CONTENT")
+    private String rvContent;
 
-    @Column
-    private String user;
+    @Column(name = "RV_WRITE_NAME")
+    private String rvWriteName;
 }
