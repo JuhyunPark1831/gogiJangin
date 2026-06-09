@@ -6,18 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "TB_POPUP")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Popup {
+public class Popup extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "PU_ID")
     private Long puId;
 
-    @Column
-    private String title;
+    @Column(name = "PU_TITME")
+    private String puTitle;
 
-    @Column
-    private String imageUrl;
+    @Column(name = "PU_IMAGE_URL")
+    private String puImageUrl;
 }
