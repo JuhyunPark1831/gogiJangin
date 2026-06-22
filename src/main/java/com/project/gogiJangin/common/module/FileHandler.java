@@ -28,7 +28,7 @@ public class FileHandler {
             for (MultipartFile file : fileList) {
                 String savePath = filePath + File.separator + System.currentTimeMillis() + file.getOriginalFilename();
                 File saveFile = new File(savePath);
-                image.transferTo(file); 
+                file.transferTo(saveFile);
             }
 
             return filePath;
