@@ -22,4 +22,11 @@ public abstract class BaseEntity {
     @LastModifiedDate
     @Column(name = "MOD_DT")
     private LocalDateTime modDt;
+
+    @Column(name = "DEL_YN", nullable = false, length = 1)
+    private String delYn = "N";
+
+    public void softDelete() {
+        this.delYn = "Y";
+    }
 }
