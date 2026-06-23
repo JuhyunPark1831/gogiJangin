@@ -1,6 +1,5 @@
 package com.project.gogiJangin.entity;
 
-import com.project.gogiJangin.dto.franchise.FranchiseRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,7 +17,7 @@ public class AttachFile extends BaseEntity {
     @Column(name = "AF_ID")
     private Long afId;
 
-    @Column(name = "AF_GROUP_NAME")
+    @Column(name = "AF_GROUP_ID")
     private Long afGroupId;
 
     @Column(name = "AF_FILE_ORI_NAME")
