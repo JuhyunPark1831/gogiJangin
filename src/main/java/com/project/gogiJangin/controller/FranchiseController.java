@@ -12,36 +12,50 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/franchise")
 public class FranchiseController {
 
     private final FranchiseService franchiseService;
 
-    @PostMapping("/api/inquireFranchise.do")
+    @GetMapping("/admin/franchise/list.do")
+    public String franchiseList() {
+        return "/admin/inquiry/inquiry_list";
+    }
+
+    @GetMapping("/admin/franchise/view.do")
+    public String franchiseView() {
+        return "/admin/inquiry/inquiry_view";
+    }
+
+    @GetMapping("/admin/franchise/write.do")
+    public String franchiseWrite() {
+        return "/admin/inquiry/inquiry_write";
+    }
+
+    @PostMapping("/franchise/api/inquireFranchise.do")
     @ResponseBody
     public CustomResponseEntity<Long> inquireFranchise(@RequestBody FranchiseRequestDto requestDto) {
         return CustomResponseEntity.success("가맹문의가 등록되었습니다.", franchiseService.addFranchise(requestDto));
     }
 
-    @GetMapping("/api/viewFranchiseDetail.do/{frId}")
+    @GetMapping("/franchise/api/viewFranchiseDetail.do/{frId}")
     @ResponseBody
     public CustomResponseEntity<FranchiseResponseDto> viewFranchiseDetail(@PathVariable Long frId) {
         return CustomResponseEntity.success(null, franchiseService.getFranchiseDetail(frId));
     }
 
-    @GetMapping("/api/viewFranchiseList.do")
+    @GetMapping("/franchise/api/viewFranchiseList.do")
     @ResponseBody
     public CustomResponseEntity<PageResponse<FranchiseResponseDto>> viewFranchiseList(Pageable pageable) {
         return CustomResponseEntity.success(null, franchiseService.getFranchiseList(pageable));
     }
 
-    @PutMapping("/api/editFranchise.do")
+    @PutMapping("/franchise/api/editFranchise.do")
     @ResponseBody
     public CustomResponseEntity<Long> editFranchise(@RequestBody FranchiseRequestDto requestDto) {
         return CustomResponseEntity.success("가맹문의가 변경되었습니다", franchiseService.updateFranchise(requestDto));
     }
 
-    @DeleteMapping("/api/deleteFranchise.do/{frId}")
+    @DeleteMapping("/franchise/api/deleteFranchise.do/{frId}")
     @ResponseBody
     public CustomResponseEntity<Object> deleteFranchise(@PathVariable Long frId) {
         franchiseService.deleteFranchise(frId);

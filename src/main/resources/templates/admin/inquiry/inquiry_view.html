@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title></title>
+
+    <link rel="stylesheet" href="/admin/css/style.css">
+
+</head>
+
+<body>
+
+    <!-- =========================================
+        Header
+    ========================================== -->
+
+    <header class="header">
+
+        <div class="inner">
+
+            <h1 class="logo">
+                <a href="#">
+                    <img src="/admin/images/logo.png" alt="">
+                </a>
+            </h1>
+
+            <nav class="gnb">
+
+                <ul>
+
+                    <li>
+                        <a href="popup_list.html">팝업관리</a>
+                    </li>
+
+                    <li>
+                        <a href="review_list.html">리뷰관리</a>
+                    </li>
+
+                    <li class="active">
+                        <a href="inquiry_list.html">가맹문의관리</a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+            <div class="header-util">
+
+                <a href="#" class="btn-logout">
+                    로그아웃
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- =========================================
+        Main
+    ========================================== -->
+
+    <main class="container">
+
+        <!-- Page Title -->
+
+        <section class="page">
+
+            <div class="page-title">
+
+                <div class="title-left">
+
+                    <img src="/admin/images/icon_inquiry.png" alt="" class="title-icon">
+
+                    <h2>가맹문의관리</h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- Form -->
+
+            <form>
+
+                <div class="form-table">
+
+                    <table>
+
+                        <colgroup>
+
+                            <col style="width:190px;">
+                            <col>
+
+                        </colgroup>
+
+                        <tbody>
+
+                            <tr>
+                                <th>이름</th>
+                                <td>홍길동</td>
+                            </tr>
+
+                            <tr>
+                                <th>연락처</th>
+                                <td>0101-1234-5678</td>
+                            </tr>                            
+
+                            <tr>
+                                <th>창업 희망지역</th>
+                                <td>수원</td>
+                            </tr>
+                            
+                            <tr>
+                                <th>검색경로</th>
+                                <td>네이버</td>
+                            </tr>
+
+                            <tr>
+                                <th>접수일</th>
+                                <td>2026-07-24</td>
+                            </tr>
+
+                            <tr>
+                                <th>상담메모</th>
+                                <td>
+                                  전화 상담 완료, 8월 초 방문 예정<br>
+                                  담당자 : 김갑수
+                                </td>
+                            </tr>
+
+                            <!-- 상태 -->
+
+                            <tr>
+
+                                <th>
+                                    상태
+                                </th>
+
+                                <td>
+                                    	
+                                    <span class="badge badge-blue">
+                                        상담중
+                                    </span>
+
+                                </td>
+
+                            </tr>                           
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Bottom -->
+
+                <div class="form-btn">
+
+                    <button
+                        type="button"
+                        class="btn btn-gray">
+
+                        목록
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-gray">
+
+                        삭제
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        수정
+
+                    </button>
+
+                </div>
+
+            </form>
+            
+
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>                        

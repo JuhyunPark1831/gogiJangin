@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" type="text/css" href="/customer/css/style.css">
+
+    <!-- Swiper -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <!-- AOS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+
+  <title></title>
+
+</head>
+
+<body>
+
+<!-- Popup -->
+<div class="modal micromodal-slide" id="popup-modal" aria-hidden="true">
+
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+
+            <h2 id="popup-title" class="visually-hidden">이벤트 팝업</h2>            
+
+            <button class="popup-prev" type="button">
+                    &#10094;
+            </button>            
+
+            <div class="popup-content">
+
+                <div class="popup-body">
+                    
+                                    
+                    <!-- 이미지 팝업 -->
+                    <img id="popupImage" class="popup-image" src="" alt="">
+
+                    <!-- HTML 팝업 -->
+                    <div id="popupHtml" class="popup-html">
+
+                        <!-- Sales Popup -->
+                        <div id="salesPopup" class="popup-page">
+
+                            <div class="sales-popup">
+
+                                <div class="popup-header">
+
+                                    <div class="sales-title-wrap">
+                                        <img src="/customer/images/popup/sales_trophy.png" alt="" class="sales-trophy">
+
+                                        <div class="sales-text">
+                                            <p class="sales-sub-title">진심을 담아내다</p>
+                                            <h2 class="sales-brand-title">고기장인</h2>
+                                        </div>                                        
+                                    </div>
+
+                                    <div class="sales-title-bar">
+
+                                        <img src="/customer/images/popup/icon_star.png" alt="" class="sales-title-star">
+                                        <h3 class="sales-title">전 매장 6월 월 매출</h3>
+                                        <img src="/customer/images/popup/icon_star.png" alt="" class="sales-title-star">
+
+                                    </div>
+
+                                    <div class="period">
+                                        조회기간 : 2026.06.01 ~ 2026.06.30
+                                    </div>
+
+                                </div>
+
+                                <div class="sales-table-wrap">
+
+                                    <table class="sales-table">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th>
+                                                    <div class="sales-th-wrap">
+                                                        <img src="/customer/images/popup/icon_store.png" alt="">
+                                                        <span>지점명</span>
+                                                    </div>
+                                                </th>
+
+                                                <th>
+                                                    <div class="sales-th-wrap sales-th-right">
+                                                        <img src="/customer/images/popup/icon_money.png" alt="">
+                                                        <span>월매출</span>
+                                                    </div>
+                                                </th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            <tr>
+                                                <td>용산점</td>
+                                                <td class="sales-price" data-price="197089515">0원</td>
+                                            </tr>
+                                            <tr>
+                                                <td>인천구월점</td>
+                                                <td class="sales-price" data-price="171204800">0원</td>
+                                            </tr>
+                                            <tr>
+                                                <td>목포하당점</td>
+                                                <td class="sales-price" data-price="150665400">0원</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>광주상무점</td>
+                                                <td class="sales-price" data-price="149688000">0원</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>평택서정점</td>
+                                                <td class="sales-price" data-price="145633000">0원</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>병점점</td>
+                                                <td class="sales-price" data-price="121408700">0원</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>광주운봉점</td>
+                                                <td class="sales-price" data-price="121156470">0원</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>동탄점</td>
+                                                <td class="sales-price" data-price="112324100">0원</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>청주가경점</td>
+                                                <td class="sales-price" data-price="104477900">0원</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>군포금정점</td>
+                                                <td class="sales-price" data-price="104137468">0원</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>남구점</td>
+                                                <td class="sales-price" data-price="102665905">0원</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>진접오남점</td>
+                                                <td class="sales-price" data-price="101929860">0원</td>
+                                            </tr>
+
+
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    
+
+
+
+                </div>
+
+                <div class="popup-footer">
+
+                    <label class="today-close">
+                        <input type="checkbox" id="todayClose">
+                        오늘 하루 열지 않음
+                    </label>
+
+                    <button class="popup-close-btn" type="button">
+                        닫기
+                    </button>
+
+                </div>
+
+            </div>
+            
+            <button class="popup-next" type="button">
+                &#10095;
+            </button>            
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+<header class="header">
+    <div class="container">
+
+        <h1 class="logo">
+            <a href="#">
+                <img src="/customer/images/logo.png" alt="고기장인" class="logo">
+            </a>
+        </h1>
+
+        <nav class="gnb">
+            <ul>
+                <li><a href="#brand">브랜드</a></li>
+                <li><a href="#strength">창업 경쟁력</a></li>
+                <li><a href="#menu">메뉴</a></li>
+                <li><a href="#review">고객리뷰</a></li>
+                <li><a href="#protection">영업권보호</a></li>
+                <li><a href="#cost">창업비용 및 가맹문의</a></li>
+            </ul>
+        </nav>
+
+        <button class="menu-btn" type="button" aria-label="메뉴 열기">
+            <img src="/customer/images/icon_menu.png" alt="">
+        </button>
+
+    </div>
+</header>
+
+<main>
+
+    <!-- 브랜드 소개 -->
+    <section id="brand" class="brand">
+        <div class="brand-top">
+            <div class="container brand-top-wrap">
+
+                <div class="brand-title">
+                    <h2 class="split">진심을 담아내다</h2>
+                    <p class="split delay">배달 시장에 최적화된 고기 배달 전문 브랜드</p>
+                </div>
+
+                <div class="brand-content">
+
+                    <div class="brand-item left">
+                        <img src="/customer/images/brand/menu_left.png" alt="">
+                    </div>
+                    <div class="brand-item right">
+                        <img src="/customer/images/brand/menu_right.png" alt="">
+                    </div>
+
+                    <!-- Steam -->
+                    <div class="steam steam1">
+                        <img src="/customer/images/brand/steam1.png" alt="">
+                    </div>
+                    <div class="steam steam2">
+                        <img src="/customer/images/brand/steam2.png" alt="">
+                    </div>
+                    <div class="steam steam3">
+                        <img src="/customer/images/brand/steam3.png" alt="">
+                    </div>
+
+                    <img src="/customer/images/brand/open.png" alt="" class="open-sign">
+                    <img src="/customer/images/brand/chopsticks.png" alt="" class="chopsticks">
+
+                </div>
+            </div>            
+        </div>
+        <div class="brand-bottom">
+            <div class="container brand-bottom-wrap">
+                <div class="brand-text">
+
+                    <p>
+                        누구나 쉽게 운영할 수 있도록 복잡한 방식을 줄인 시스템을 구축하여
+                        <strong>초보 창업자의 안정적인 시작을 지원합니다.</strong>
+                    </p>
+
+                    <p>
+                        고객에게는 만족스러운 한 끼를, 점주에게는 안정적인 수익을 제공하며
+                        <strong>함께 성장하는 파트너</strong>가 되는 것을 목표로 합니다.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 창업 경쟁력 -->
+    <section id="strength" class="strength">
+
+        <article class="strength-item strategy">
+            <div class="strength-title">
+                
+                <div class="container title-wrap">
+                    <div class="title-number" data-aos="fade-right">1</div>
+                    <div class="title-text">
+                        <span data-aos="fade-up" data-aos-delay="150">창업<br>경쟁력</span>
+                        <h3 data-aos="fade-up" data-aos-delay="300">#핵심 메뉴 집중 전략</h3>
+                    </div>                
+                </div>                
+               
+            </div>
+
+            <div class="strategy-body">
+                <div class="container strategy-wrap">
+
+                    <!-- 좌측 -->
+                    <div class="strategy-left">
+                        <div class="food-image" data-aos="food-reveal">
+                            <img src="/customer/images/strength/food.png" alt="핵심 메뉴">
+                        </div>
+                        <img src="/customer/images/strength/star-01.png" alt="" class="star star-01">
+                        <img src="/customer/images/strength/star-02.png" alt="" class="star star-02">
+                        <img src="/customer/images/strength/star-01.png" alt="" class="star star-03">
+                    </div>
+
+                    <!-- 우측 -->
+                    <div class="strategy-right">
+                        <div class="speech-box">
+                            <p>
+                                메뉴 수를 늘리기보다 고객이 다시 찾는<br>
+                                <strong>핵심 메뉴에 집중</strong>했습니다.
+                            </p>
+                        </div>
+
+                        <div class="speech-box">
+                            <p>
+                                간소화된 메뉴 구성으로 운영 효율을 높이고<br>
+                                <strong style="color: #000;">재주문율과 단골 고객 확보</strong>를 목표로 합니다.
+                            </p>
+                        </div>
+
+                        <div class="menu-grid">
+
+                            <div class="menu-item">
+                                <img src="/customer/images/strength/menu01.jpg" alt="">
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="/customer/images/strength/menu02.jpg" alt="">
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="/customer/images/strength/menu03.jpg" alt="">
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="/customer/images/strength/menu04.jpg" alt="">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+
+        <article class="strength-item easy">
+            <div class="easy-title">
+                
+                <div class="container title-wrap">
+                    <div class="title-number" data-aos="fade-right">2</div>
+                    <div class="title-text">
+                        <span data-aos="fade-up" data-aos-delay="150">창업<br>경쟁력</span>
+                        <h3 data-aos="fade-up" data-aos-delay="300">#누구나 가능한 간편 운영</h3>
+                    </div>                
+                </div>                
+               
+            </div>
+            <div class="easy-body">
+
+                <div class="container easy-wrap">
+
+                    <div class="easy-text">
+
+                        <p>
+                            복잡한 조리 기술 없이도 운영이 가능하도록 시스템화하였습니다.
+                        </p>
+
+                        <p>
+                            초보 창업자도 교육 후 쉽게 운영할 수 있습니다.
+                        </p>
+
+                    </div>
+
+                    <div class="easy-image">
+
+                        <div class="easy-item">
+                            <img src="/customer/images/strength/easy-01.jpg" alt="">
+                        </div>
+
+                        <div class="easy-item">
+                            <img src="/customer/images/strength/easy-02.jpg" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </article>
+
+        <article class="strength-item labor">
+            <div class="labor-title">
+                
+                <div class="container title-wrap">
+                    <div class="title-number" data-aos="fade-right">3</div>
+                    <div class="title-text">
+                        <span data-aos="fade-up" data-aos-delay="150">창업<br>경쟁력</span>
+                        <h3 class="labor-title" data-aos="fade-up" data-aos-delay="300">#낮은 인건비 구조</h3>
+                    </div>                
+                </div>                
+               
+            </div>
+            <div class="labor-body">
+
+                <div class="container labor-wrap">
+
+                    <div class="labor-text">
+
+                        <p>
+                            간편한 조리 시스템으로 1~2 인 운영이 가능하며
+                        </p>
+
+                        <p>
+                            인건비 부담을 최소화하였습니다.
+                        </p>
+
+                    </div>
+
+                    <div class="labor-image">
+
+                        <div class="labor-item">
+                            <img src="/customer/images/strength/labor_01.jpg" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </article>
+
+        <article class="strength-item delivery">
+            <div class="delivery-title">
+                
+                <div class="container title-wrap">
+                    <div class="title-number" data-aos="fade-right">4</div>
+                    <div class="title-text">
+                        <span data-aos="fade-up" data-aos-delay="150">창업<br>경쟁력</span>
+                        <h3 class="delivery-title" data-aos="fade-up" data-aos-delay="300">#배달 중심 운영</h3>
+                    </div>                
+                </div>                
+               
+            </div>
+            <div class="delivery-body">
+
+                <div class="container delivery-wrap">
+                    <div class="delivery-text">
+                        <p>
+                            배달 전문 시스템을 기반으로 홀 운영 부담을 줄이고
+                        </p>
+
+                        <p>
+                            효율적인 매장 운영이 가능합니다.
+                        </p>
+                    </div>
+                </div>
+                <div class="delivery-image">
+
+                    <div class="delivery-item" data-aos="fade-left" data-aos-duration="800">
+                        <img src="/customer/images/strength/bike.png" alt="">
+                    </div>
+
+                </div>                
+
+            </div>            
+        </article>
+
+        <article class="strength-item system">
+
+            <!-- Title -->
+            <div class="system-title">
+
+                <div class="container title-wrap">
+
+                    <div class="title-number" data-aos="fade-right">5</div>
+                    <div class="title-text">
+                        <span data-aos="fade-up" data-aos-delay="150">
+                            창업<br>경쟁력
+                        </span>
+                        <h3 data-aos="fade-up" data-aos-delay="300">
+                            #검증된 운영 시스템
+                        </h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Body -->
+            <div class="system-body">
+
+                <div class="container system-wrap">
+
+                    <div class="system-text">
+
+                        <p>
+                            실제 매장 운영 경험을 바탕으로 메뉴 및 운영 방식을 구성하여
+                        </p>
+
+                        <p>
+                            안정적인 매장 운영을 지원합니다.
+                        </p>
+
+                    </div>
+
+                    <div class="system-image">
+
+                        <div class="system-item system-item-left" data-aos="fade-right">
+                            <img src="/customer/images/strength/system_left.png" alt="">
+                        </div>
+
+                        <div class="system-item system-item-center" data-aos="zoom-in" data-aos-duration="800">
+                            <img src="/customer/images/strength/system_center.png" alt="">
+                        </div>
+
+                        <div class="system-item system-item-right" data-aos="fade-left">
+                            <img src="/customer/images/strength/system_right.png" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </section>
+
+    <!-- 메뉴 -->
+    <section id="menu" class="menu">
+
+        <div class="container menu-wrap">
+
+            <!-- Title -->
+            <div class="menu-title" data-aos="fade-up">
+                <h2>고기장인 메뉴</h2>
+            </div>
+
+            <!-- Tab -->
+            <div class="menu-tab" data-aos="fade-up" data-aos-delay="150">
+
+                <button  class="menu-tab-btn active" data-category="meat">고기메뉴</button>
+                <button class="menu-tab-btn" data-category="soup">국물류</button>
+                <button class="menu-tab-btn" data-category="side">사이드메뉴</button>
+                <button class="menu-tab-btn" data-category="signature">시그니처메뉴</button>
+
+            </div>
+
+            <!-- Menu List -->
+            <div class="menu-list">
+
+                <!-- 고기메뉴 -->
+                <div class="menu-group active" data-category="meat">
+
+                    <div class="swiper menu-swiper">
+
+                        <div class="swiper-wrapper">
+
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/meat_01.jpg" alt="">
+                                        </figure>
+                                        <h3>실속보따리</h3>
+                                    </a>
+                                </article>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/meat_02.jpg" alt="">
+                                        </figure>
+                                        <h3>한보따리</h3>
+                                    </a>
+                                </article>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/meat_03.jpg" alt="">
+                                        </figure>
+                                        <h3>혼밥세트</h3>
+                                    </a>
+                                </article>
+                            </div>
+
+                        </div>
+
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+
+                    </div>
+
+                </div>
+
+                <!-- 국물류 -->
+                <div class="menu-group" data-category="soup">
+
+                    <div class="swiper menu-swiper">
+
+                        <div class="swiper-wrapper">
+
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/soup_01.jpg" alt="">
+                                        </figure>
+                                        <h3>김치찌개</h3>
+                                    </a>
+                                </article>
+                            </div>
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/soup_02.jpg" alt="">
+                                        </figure>
+                                        <h3>순두부찌개</h3>
+                                    </a>
+                                </article>
+                            </div>
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/soup_03.jpg" alt="">
+                                        </figure>
+                                        <h3>어묵탕</h3>
+                                    </a>
+                                </article>
+                            </div>
+
+                        </div>
+
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+
+                    </div>
+
+                </div>
+
+                <!-- 사이드 -->
+                <div class="menu-group" data-category="side">
+
+                    <div class="swiper menu-swiper">
+
+                        <div class="swiper-wrapper">
+
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/side_01.jpg" alt="">
+                                        </figure>
+                                        <h3>계란찜</h3>
+                                    </a>
+                                </article>
+                            </div>
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/side_02.jpg" alt="">
+                                        </figure>
+                                        <h3>비빔면</h3>
+                                    </a>
+                                </article>
+                            </div>
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/side_03.jpg" alt="">
+                                        </figure>
+                                        <h3>육회</h3>
+                                    </a>
+                                </article>
+                            </div>
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/side_04.jpg" alt="">
+                                        </figure>
+                                        <h3>콘치즈</h3>
+                                    </a>
+                                </article>
+                            </div>
+
+                        </div>
+
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+
+                    </div>
+
+                </div>
+
+                <!-- 시그니처 -->
+                <div class="menu-group" data-category="signature">
+
+                    <div class="swiper menu-swiper">
+
+                        <div class="swiper-wrapper">
+
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/signature_01.jpg" alt="">
+                                        </figure>
+                                        <h3>실속보따리</h3>
+                                    </a>
+                                </article>
+                            </div>
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/signature_02.jpg" alt="">
+                                        </figure>
+                                        <h3>한보따리</h3>
+                                    </a>
+                                </article>
+                            </div>
+                            <div class="swiper-slide">
+                                <article class="menu-card">
+                                    <a href="#">
+                                        <figure class="menu-thumb">
+                                            <img src="/customer/images/menu/signature_03.jpg" alt="">
+                                        </figure>
+                                        <h3>혼밥세트</h3>
+                                    </a>
+                                </article>
+                            </div>
+
+                        </div>
+
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- 리뷰 -->
+    <section id="review" class="review">
+
+        <img src="/customer/images/review/hand.png" alt="" class="review-hand" data-aos="fade-left" data-aos-delay="700">
+
+        <img src="/customer/images/review/star.png" alt="" class="review-star star01">
+        <img src="/customer/images/review/star.png" alt="" class="review-star star02">
+        <img src="/customer/images/review/star.png" alt="" class="review-star star03">
+        <img src="/customer/images/review/star.png" alt="" class="review-star star04">
+        <img src="/customer/images/review/star.png" alt="" class="review-star star05">
+        
+        <div class="container review-wrap">
+            <div class="review-title" data-aos="fade-up">
+                <span class="review-icon">
+                    <img src="/customer/images/review/review_star.png" alt="">
+                </span>
+                <h2>리뷰</h2>
+                <p>고객님들의 생생한 후기, 진심을 담아 전합니다.</p>
+            </div>
+        </div>
+        <div class="review-slider-wrap">
+
+            <div class="swiper review-slider" data-aos="fade-up" data-aos-delay="250">
+
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_01.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_02.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_03.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_04.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_05.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_06.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_07.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_08.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_09.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_10.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_11.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_12.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_13.jpg" alt="">
+                        </article>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <article class="review-card">
+                            <img src="/customer/images/review/review_14.jpg" alt="">
+                        </article>
+                    </div>
+
+                </div>
+
+            </div>        
+
+
+        </div>
+
+    </section>
+
+    <!-- 영업권 보호 -->
+    <section id="protection" class="protection">
+
+        <div class="container protection-wrap">
+
+            <div class="protection-title">
+                <!-- <h2><span class="white">고기장인</span><span class="gold">영업권 보호</span><span class="white">정책</span></h2> -->
+                <h2 data-aos="zoom-in" data-aos-duration="700"><img src="/customer/images/protection/title.png" alt=""></h2>
+
+                <p data-aos="fade-up" data-aos-delay="250">
+                    배달매장에서 매우 중요한 영업지역!
+                    고기장인은 가맹점의 안정적인 매출을 위해<br>
+                    <strong>배달 반경 2km 영업권 보장 정책</strong>을 시행합니다.
+                </p>
+            </div>
+
+            <div class="protection-visual" data-aos="zoom-in" data-aos-duration="800">
+
+                <img src="/customer/images/protection/map.gif" class="map" alt="">
+                <div class="radius-wrap">
+                    <img src="/customer/images/protection/radius.png" class="radius" alt="">
+                </div>
+                <img src="/customer/images/protection/hands.png" class="hands" alt="">
+                <img src="/customer/images/protection/center.png" class="center" alt="">
+
+            </div>
+
+            <div class="protection-list">
+
+                <article class="protection-item" data-aos="fade-up" data-aos-duration="900">
+                    <img src="/customer/images/protection/icon_01.png" alt="">
+                    <h3>배달 반경 2km 보장</h3>
+                    <p>각 가맹점 중심 반경 2km 내 동일 브랜드 신규 출점을 제한하여 안정적인 상권을 보호합니다.</p>
+                </article>
+
+                <article class="protection-item" data-aos="fade-up" data-aos-duration="1000">
+                    <img src="/customer/images/protection/icon_02.png" alt="">
+                    <h3>상권 분석 후 입점</h3>
+                    <p>배달 수요와 인구, 경쟁 매장을 종합 분석하여 최적의 입지를 선정합니다.</p>
+                </article>
+
+                <article class="protection-item" data-aos="fade-up" data-aos-duration="1100">
+                    <img src="/customer/images/protection/icon_03.png" alt="">
+                    <h3>과도한 출점 제한</h3>
+                    <p>동일 상권 내 과도한 출점을 제한하여 가맹점과 브랜드가 함께 성장합니다.</p>
+                </article>
+
+                <article class="protection-item" data-aos="fade-up" data-aos-duration="1200">
+                    <img src="/customer/images/protection/icon_04.png" alt="">
+                    <h3>안정적인 매출 확보</h3>
+                    <p>명확한 영업권 보호 정책으로 장기적인 수익 구조를 지원합니다.</p>
+                </article>
+
+            </div>
+        </div>
+        <div class="protection-bottom-wrap">
+            <div class="container protection-bottom">
+                고기장인은 가맹점의 성공이 곧 브랜드의 성공이라는 믿음으로 철저한 영업권 보호 정책을 운영합니다.
+            </div>            
+        </div>
+
+    </section>
+
+    <!-- 창업비용 및 가맹문의 -->
+    <section id="cost" class="cost">
+
+        <div class="container cost-wrap">
+
+            <div class="cost-title">
+                <h2>창업 비용 및 가맹문의</h2>
+            </div>
+
+            <div class="cost-body-wrap">
+
+                <!-- 문의 -->
+                <div class="cost-form">
+
+                    <h3>가맹 문의하기</h3>
+
+                    <ul>
+
+                        <li>
+                            <img src="/customer/images/cost/icon_name.png" alt="">
+                            <input type="text" placeholder="이름">
+                        </li>
+
+                        <li>
+                            <img src="/customer/images/cost/icon_phone.png" alt="">
+                            <input type="text" placeholder="연락처">
+                        </li>
+
+                        <li>
+                            <img src="/customer/images/cost/icon_map.png" alt="">
+                            <input type="text" placeholder="창업 희망 지역">
+                        </li>
+
+                        <li>
+                            <img src="/customer/images/cost/icon_search.png" alt="">
+                            <select>
+                                <option value="">검색 경로 선택</option>
+                                <option value="네이버">네이버</option>
+                                <option value="유튜브">유튜브</option>
+                                <option value="인스타그램">인스타그램</option>
+                                <option value="페이스북">페이스북</option>
+                                <option value="지인소개">지인 소개</option>
+                                <option value="배달앱">배달앱</option>
+                                <option value="마이프차">마이프차</option>
+                            </select>
+                        </li>
+
+                    </ul>
+
+                    <button class="btn-cost">가맹문의</button>
+
+                    <p>- 담당자가 영업일 기준 24시간 이내에 연락드립니다. -</p>
+
+                </div>
+
+                <!-- 비용 -->
+                <div class="cost-table-wrap">
+
+                    <table class="cost-table">
+
+                        <thead>
+                            <tr>
+                                <th>항목</th>
+                                <th>금액/내용</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>로열티</td>
+                                <td>월 15만원</td>
+                            </tr>
+
+                            <tr>
+                                <td>교육비</td>
+                                <td>1,000만원</td>
+                            </tr>
+
+                            <tr>
+                                <td>보증금</td>
+                                <td>500만원</td>
+                            </tr>
+
+                            <tr>
+                                <td>집기류</td>
+                                <td>2,000만원</td>
+                            </tr>
+
+                            <tr>
+                                <td>공사비</td>
+                                <td>점포별 상이</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                    <span class="notice">
+                        ※ 부가세 별도 기준이며, 현장 상황에 따라 변동될 수 있습니다.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="container footer-wrap">
+
+        <h2 class="footer-logo">
+            <img src="/customer/images/footer_logo.png" alt="고기장인">
+        </h2>
+
+        <address class="footer-info">
+
+            <p>
+                <strong>본사</strong> : 진심을 담아내다 고기장인
+                <span>|</span>
+                <strong>대표자</strong> : 홍길동
+            </p>
+
+            <p>
+                <strong>주소</strong> : 서울특별시 강남구 논현로30길 25, 2층
+                <span>|</span>
+                <strong>대표전화</strong> : 02-00-0000
+            </p>
+
+            <p>
+                <strong>이메일</strong> : xxxxxx@www.xxxx.com
+            </p>
+
+        </address>
+
+    </div>
+
+    <div class="footer-copy">
+        <div class="container">
+            &copy; 진심을 담아내다 고기장인 All rights reserved.
+        </div>
+    </div>
+
+</footer>
+
+
+<!-- Swiper -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- AOS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+<!-- Micromodal -->
+<script src="https://cdn.jsdelivr.net/npm/micromodal/dist/micromodal.min.js"></script>
+
+<!-- Custom -->
+<script src="/customer/js/main.js"></script>
+
+</body>
+</html>   
