@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum ErrorCode {
 
     TEST_ERROR(400, "9999", "테스트 에러 처리"),
+    NOT_FOUNT_ACCOUNT(400, "000", "존재하지 않는 계정입니다."),
 
     NOT_FOUND_FRANCHISE(400, "200", "잘못된 가맹문의입니다"),
 

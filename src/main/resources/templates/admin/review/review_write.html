@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title></title>
+
+    <link rel="stylesheet" href="/admin/css/style.css">
+
+</head>
+
+<body>
+
+    <!-- =========================================
+        Header
+    ========================================== -->
+
+    <header class="header">
+
+        <div class="inner">
+
+            <h1 class="logo">
+                <a href="#">
+                    <img src="/admin/images/logo.png" alt="">
+                </a>
+            </h1>
+
+            <nav class="gnb">
+
+                <ul>
+
+                    <li>
+                        <a href="popup_list.html">팝업관리</a>
+                    </li>
+
+                    <li class="active">
+                        <a href="review_list.html">리뷰관리</a>
+                    </li>
+
+                    <li>
+                        <a href="inquiry_list.html">가맹문의관리</a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+            <div class="header-util">
+
+                <a href="#" class="btn-logout">
+                    로그아웃
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- =========================================
+        Main
+    ========================================== -->
+
+    <main class="container">
+
+        <!-- Page Title -->
+
+        <section class="page">
+
+            <div class="page-title">
+
+                <div class="title-left">
+
+                    <img src="/admin/images/icon_review.png" alt="" class="title-icon">
+
+                    <h2>리뷰관리</h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- Form -->
+
+            <form>
+
+                <div class="form-table">
+
+                    <table>
+
+                        <colgroup>
+
+                            <col style="width:190px;">
+                            <col>
+
+                        </colgroup>
+
+                        <tbody>
+
+                            <!-- 제목 -->
+
+                            <tr>
+
+                                <th>
+                                    제목
+                                </th>
+
+                                <td>
+
+                                    <input
+                                        type="text"
+                                        class="form-input"
+                                        placeholder="제목을 입력하세요.">
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+                                    플랫폼
+                                </th>
+
+                                <td>
+                                    <select class="form-select">
+
+                                        <option value="">플랫폼 선택</option>
+
+                                        <option value="네이버">네이버</option>
+
+                                        <option value="배달의민족">배달의민족</option>
+
+                                        <option value="쿠팡이츠">쿠팡이츠</option>
+
+                                        <option value="요기요">요기요</option>
+
+                                        <option value="땡겨요">땡겨요</option>
+
+                                        <option value="인스타그램">인스타그램</option>
+
+                                        <option value="페이스북">페이스북</option>
+
+                                        <option value="블로그">블로그</option>
+
+                                        <option value="기타">기타</option>
+
+                                    </select>
+                                    
+
+                                </td>
+
+                            </tr>
+
+                            <!-- 이미지 -->
+
+                            <tr>
+
+                                <th>
+                                    파일 이미지 업로드
+                                </th>
+
+                                <td>
+
+                                    <div class="upload-box">
+
+                                        <input
+                                            type="file"
+                                            id="popupImage"
+                                            hidden>
+
+                                        <label
+                                            for="popupImage"
+                                            class="upload-area">
+
+                                            <div class="upload-icon">
+
+                                                +
+
+                                            </div>
+
+                                            <strong>
+
+                                                이미지를 업로드 하세요
+
+                                            </strong>
+
+                                            <p>
+
+                                                (JPG, PNG, max 5MB)
+
+                                            </p>
+
+                                            <span class="btn-upload">
+
+                                                이미지 선택
+
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            <!-- 노출기간 -->
+
+                            <tr>
+
+                                <th>
+                                    노출 여부
+                                </th>
+
+                                <td>
+
+                                    <select class="form-select">
+
+                                        <option value="Y">노출</option>
+
+                                        <option value="N">숨김</option>
+
+                                    </select>                                    
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+                                    정렬 순서
+                                </th>
+
+                                <td>
+
+                                     <input
+                                        type="number"
+                                        class="form-input"
+                                        min="1"
+                                        step="1"
+                                        value="1" style="width: 220px;">
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Bottom -->
+
+                <div class="form-btn">
+
+                    <button
+                        type="button"
+                        class="btn btn-gray">
+
+                        취소하기
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        등록하기
+
+                    </button>
+
+                </div>
+
+            </form>
+            
+
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>                        
