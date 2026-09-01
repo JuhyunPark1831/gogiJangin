@@ -18,6 +18,40 @@
         if (params.get('error') === 'true') {
             alert('아이디 또는 비밀번호가 올바르지 않습니다.');
         }
+
+        const savedId = localStorage.getItem('adminUserId');
+
+        if (savedId) {
+            $("input[name='username']").val(savedId);
+            $('#saveId').prop('checked', true);
+        }
+
+        $('#loginForm').on('submit', function(e) {
+
+            const id = $("input[name='username']").val().trim();
+            const password = $("input[name='password']").val().trim();
+
+            if (id === '') {
+                e.preventDefault();
+                alert('아이디를 입력해주세요.');
+                $("input[name='username']").focus();
+                return false;
+            }
+
+            if (password === '') {
+                e.preventDefault();
+                alert('비밀번호를 입력해주세요.');
+                $("input[name='password']").focus();
+                return false;
+            }
+
+            if ($('#saveId').is(':checked')) {
+                localStorage.setItem('adminUserId', id);
+            } else {
+                localStorage.removeItem('adminUserId');
+            }
+
+        });
     });
 </script>
 
@@ -29,7 +63,7 @@
             <img src="/admin/images/logo.png" alt="더장인">
         </h1>
 
-        <form action="/admin/login.do" method="post">
+        <form action="/admin/login.do" method="post" id="loginForm">
 
             <div class="input-box">
 
@@ -65,14 +99,14 @@
 
             <label class="save-id">
 
-                <input type="checkbox">
+                <input type="checkbox" id="saveId">
 
                 <span>아이디 저장</span>
 
             </label>
 
 
-            <button type="submit" class="btn-login">
+            <button type="submit" class="btn-login" id="btn-login">
 
                 로그인
 
