@@ -55,7 +55,7 @@ public class FranchiseController {
         return CustomResponseEntity.success("가맹문의가 변경되었습니다", franchiseService.updateFranchise(requestDto));
     }
 
-    @DeleteMapping("/franchise/api/deleteFranchise.do/{frId}")
+    @DeleteMapping("/franchisee/api/deleteFranchise.do/{frId}")
     @ResponseBody
     public CustomResponseEntity<Object> deleteFranchise(@PathVariable Long frId) {
         franchiseService.deleteFranchise(frId);

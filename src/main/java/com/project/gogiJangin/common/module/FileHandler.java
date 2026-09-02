@@ -124,4 +124,26 @@ public class FileHandler {
             throw new CustomException(ErrorCode.FAILED_DELETE_FILE);
         }
     }
+
+    @Transactional
+    public void deleteAllFileByAfGroupId(Long afGroupId) {
+
+        List<AttachFile> attachFileList = attachFileRepository.findAllByAfGroupId(afGroupId);
+
+        for (AttachFile attachFile : attachFileList) {
+            File file = new File(attachFile.getAfFilePath());
+
+            if (!file.exists()) {
+                throw new CustomException(ErrorCode.NOT_FOUND_ATTACH_FILE);
+            }
+
+            attachFile.softDelete();
+
+            boolean deleted = file.delete();
+
+            if (!deleted) {
+                throw new CustomException(ErrorCode.FAILED_DELETE_FILE);
+            }
+        }
+    }
 }

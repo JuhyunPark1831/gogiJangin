@@ -12,6 +12,8 @@ public enum ErrorCode {
 
     NOT_FOUND_FRANCHISE(400, "200", "잘못된 가맹문의입니다"),
 
+    NOT_FOUND_POPUP(400, "300", "잘못된 팝업입니다"),
+
     NOT_FOUND_REGION(400, "400", "잘못된 지역입니다"),
 
     FAILED_SAVE_FILE(400, "900", "파일 저장에 실패하였습니다."),
