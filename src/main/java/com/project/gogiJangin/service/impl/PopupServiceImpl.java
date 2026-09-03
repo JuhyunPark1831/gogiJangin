@@ -67,7 +67,7 @@ public class PopupServiceImpl implements PopupService {
 
     // 팝업 목록 조회
     @Override
-    public PageResponse<PopupResponseDto> getPopupList(Pageable pageable) {
+    public PageResponse<PopupResponseDto> getPopupList(PopupRequestDto requestDto, Pageable pageable) {
 
         Pageable sortedPageable = PageRequest.of(
                 pageable.getPageNumber(),
@@ -75,7 +75,13 @@ public class PopupServiceImpl implements PopupService {
                 Sort.by(Sort.Direction.DESC, "regDt")
         );
 
-        Page<Popup> popupPage = popupRepository.findAll(sortedPageable);
+        Page<Popup> popupPage;
+
+        if (requestDto != null) {
+            popupPage = popupRepository.search(requestDto, sortedPageable);
+        } else {
+            popupPage = popupRepository.findAll(sortedPageable);
+        }
 
         List<PopupResponseDto> content = popupPage.getContent()
                 .stream()

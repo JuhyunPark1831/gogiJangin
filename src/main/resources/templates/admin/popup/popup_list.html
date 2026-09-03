@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <title></title>
 
     <link rel="stylesheet" href="/admin/css/style.css">
@@ -14,51 +14,56 @@
 
 <body>
 
-    <!-- =========================================
-        Header
-    ========================================== -->
+    <script>
+        $(document).ready(function () {
 
-    <header class="header">
+            $("#btn-search").on("click", function() {
+                doSearch();
+            });
 
-        <div class="inner">
+            $("#btn-clear").on("click", function() {
+                $("#startDate").val("");
+                $("#endDate").val("");
+                $("#title").val("");
+                $("#status").val("");
+            });
+        });
 
-            <h1 class="logo">
-                <a href="#">
-                    <img src="/admin/images/logo.png" alt="">
-                </a>
-            </h1>
+        function doSearch(page = 0) {
 
-            <nav class="gnb">
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
 
-                <ul>
+            const requestDto = {
+                puTitle: $('#title').val() || null,
+                puStartDt: startDate ? startDate + 'T00:00:00' : null,
+                puEndDt: endDate ? endDate + 'T23:59:59' : null,
+                status: $('#status').val() || null
+            };
 
-                    <li class="active">
-                        <a href="popup_list.html">팝업관리</a>
-                    </li>
+            $.ajax({
+                url: '/admin/popup/api/list.do?page=' + page,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestDto),
+                success: function (html) {
+                    $('#popup-list').replaceWith(html);
+                },
+                error: function (xhr) {
 
-                    <li>
-                        <a href="review_list.html">리뷰관리</a>
-                    </li>
+                    const response = xhr.responseJSON;
 
-                    <li>
-                        <a href="inquiry_list.html">가맹문의관리</a>
-                    </li>
+                    if (response && response.message) {
+                        alert(response.message);
+                    } else {
+                        alert('서버 오류가 발생했습니다.');
+                    }
+                }
+            });
+        }
+    </script>
 
-                </ul>
-
-            </nav>
-
-            <div class="header-util">
-
-                <form th:action="@{/admin/logout.do}" method="post">
-                    <button type="submit" class="btn-logout">로그아웃</button>
-                </form>
-
-            </div>
-
-        </div>
-
-    </header>
+    <div th:replace="~{admin/header :: header}"></div>
 
     <!-- =========================================
         Main
@@ -82,329 +87,172 @@
 
             </div>
 
-
-            <!-- Table -->
-
-            <div class="table-wrap">
-
-                <table class="table-list">
-
-                    <colgroup>
-
-                        <col style="width:80px;">
-                        <col>
-                        <col style="width:130px;">
-                        <col style="width:130px;">
-                        <col style="width:120px;">
-
-                    </colgroup>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>번호</th>
-                            <th>제목</th>
-                            <th>시작일</th>
-                            <th>종료일</th>
-                            <th>상태</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-
-                            <td>1</td>
-
-                            <td class="subject">
-                                <a href="#">
-                                    [이벤트] 고기장인 삼겹살 출시 기념 10% 할인 쿠폰
-                                </a>
-                            </td>
-
-                            <td>2026-12-12</td>
-
-                            <td>2026-12-12</td>
-
-                            <td>
-
-                                <span class="badge badge-blue">
-                                    예약
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>2</td>
-
-                            <td class="subject">
-                                <a href="#">
-                                    [공지] 여름 휴가 기간 매장 영업시간 단축 안내
-                                </a>
-                            </td>
-
-                            <td>2026-12-12</td>
-
-                            <td>2026-12-12</td>
-
-                            <td>
-
-                                <span class="badge badge-orange">
-                                    노출중
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>3</td>
-
-                            <td class="subject">
-                                <a href="#">
-                                    [프로모션] 주말 한정 패밀리 세트 주문 시 음료 무료
-                                </a>
-                            </td>
-
-                            <td>2026-12-12</td>
-
-                            <td>2026-12-12</td>
-
-                            <td>
-
-                                <span class="badge badge-orange">
-                                    노출중
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>4</td>
-
-                            <td class="subject">
-                                <a href="#">
-                                    [시스템] 페이코 결제 시스템 정기 점검 안내 (02:00~06:00)
-                                </a>
-                            </td>
-
-                            <td>2026-12-12</td>
-
-                            <td>2026-12-12</td>
-
-                            <td>
-
-                                <span class="badge badge-gray">
-                                    종료
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>5</td>
-
-                            <td class="subject">
-                                <a href="#">
-                                    [이벤트] 신규 가입 회원 첫 주문 시 구이용 버섯 증정
-                                </a>
-                            </td>
-
-                            <td>2026-12-12</td>
-
-                            <td>2026-12-12</td>
-
-                            <td>
-
-                                <span class="badge badge-gray">
-                                    종료
-                                </span>
-
-                            </td>
-
-                        </tr>
-                        <tr>
-
-                            <td>6</td>
-
-                            <td class="subject">
-                                <a href="#">
-                                    [공지] 추석 연휴 배송 일정 및 고객센터 운영 안내
-                                </a>
-                            </td>
-
-                            <td>2026-12-12</td>
-
-                            <td>2026-12-12</td>
-
-                            <td>
-
-                                <span class="badge badge-blue">
-                                    예약
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>7</td>
-
-                            <td class="subject">
-                                <a href="#">
-                                    [이벤트] SNS 후기 작성 시 식사권 증정 이벤트
-                                </a>
-                            </td>
-
-                            <td>2026-12-12</td>
-
-                            <td>2026-12-12</td>
-
-                            <td>
-
-                                <span class="badge badge-orange">
-                                    노출중
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>8</td>
-
-                            <td class="subject">
-                                <a href="#">
-                                    [프로모션] 평일 런치메뉴 할인 이벤트
-                                </a>
-                            </td>
-
-                            <td>2026-12-12</td>
-
-                            <td>2026-12-12</td>
-
-                            <td>
-
-                                <span class="badge badge-gray">
-                                    종료
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>9</td>
-
-                            <td class="subject">
-                                <a href="#">
-                                    [공지] 개인정보처리방침 개정 안내
-                                </a>
-                            </td>
-
-                            <td>2026-12-12</td>
-
-                            <td>2026-12-12</td>
-
-                            <td>
-
-                                <span class="badge badge-gray">
-                                    종료
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>10</td>
-
-                            <td class="subject">
-                                <a href="#">
-                                    [이벤트] 연말 감사 이벤트 안내
-                                </a>
-                            </td>
-
-                            <td>2026-12-12</td>
-
-                            <td>2026-12-12</td>
-
-                            <td>
-
-                                <span class="badge badge-orange">
-                                    노출중
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
+            <!-- 검색 영역 -->
+            <div class="search-box">
+
+                <div class="search-item">
+                    <label for="startDate">노출일자</label>
+
+                    <div class="date-wrap">
+                        <input type="date" id="startDate" name="startDate">
+                        <span>~</span>
+                        <input type="date" id="endDate" name="endDate">
+                    </div>
+                </div>
+
+                <div class="search-item">
+                    <label for="title">제목</label>
+                    <input type="text"
+                           id="title"
+                           name="searchName"
+                           placeholder="제목을 입력하세요">
+                </div>
+
+                <div class="search-item">
+                    <label for="status">상태</label>
+                    <select id="status" name="searchStatus">
+                        <option value="">전체</option>
+                        <option value="01">예약</option>
+                        <option value="02">노출중</option>
+                        <option value="03">종료</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn-search" id="btn-search">
+                    검색
+                </button>
+
+                <button type="button" class="btn-search" id="btn-clear">
+                    초기화
+                </button>
 
             </div>
 
-            <!-- Bottom -->
+            <!-- Table -->
+            <div id="popup-list" th:fragment="popup-list">
+                <div class="table-wrap">
 
-            <div class="page-bottom">
+                    <table class="table-list">
 
-                <!-- Pagination -->
+                        <colgroup>
 
-                <nav class="pagination">
+                            <col style="width:80px;">
+                            <col>
+                            <col style="width:130px;">
+                            <col style="width:130px;">
+                            <col style="width:120px;">
 
-                    <a href="#" class="page-btn first">&laquo;</a>
+                        </colgroup>
 
-                    <a href="#" class="page-btn prev">&lsaquo;</a>
+                        <thead>
 
-                    <a href="#" class="page-number active">1</a>
+                            <tr>
 
-                    <a href="#" class="page-number">2</a>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>시작일</th>
+                                <th>종료일</th>
+                                <th>상태</th>
 
-                    <a href="#" class="page-number">3</a>
+                            </tr>
 
-                    <a href="#" class="page-number">4</a>
+                        </thead>
 
-                    <a href="#" class="page-number">5</a>
+                        <tbody>
 
-                    <a href="#" class="page-btn next">&rsaquo;</a>
+                            <tr th:each="popup, stat : ${popupList.content}">
+                                <td th:text="${popupList.page * popupList.size + stat.index + 1}">1</td>
+                                <td class="subject">
+                                    <a th:href="@{/admin/popup/detail.do(puId=${popup.puId})}"
+                                       th:text="${popup.puTitle}">
+                                        팝업 제목
+                                    </a>
+                                </td>
+                                <td th:text="${#temporals.format(popup.puStartDt, 'yyyy-MM-dd')}">
+                                    2026-12-12
+                                </td>
+                                <td th:text="${#temporals.format(popup.puEndDt, 'yyyy-MM-dd')}">
+                                    2026-12-12
+                                </td>
+                                <td>
+                                    <span th:if="${popup.puStartDt.isAfter(now)}" class="badge badge-blue">예약</span>
+                                    <span th:if="${!popup.puStartDt.isAfter(now) and !popup.puEndDt.isBefore(now)}" class="badge badge-orange">노출중</span>
+                                    <span th:if="${popup.puEndDt.isBefore(now)}" class="badge badge-gray">종료</span>
+                                </td>
+                            </tr>
 
-                    <a href="#" class="page-btn last">&raquo;</a>
+                        </tbody>
 
-                </nav>
-
-                <!-- Button -->
-
-                <div class="btn-area">
-
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        onclick="location.href='popup_write.html'">
-
-                        새 팝업 등록
-
-                    </button>
+                    </table>
 
                 </div>
 
-            </div>
+                <!-- Bottom -->
 
+                <div class="page-bottom">
+
+                    <!-- Pagination -->
+
+                    <nav class="pagination" th:if="${popupList.totalPages > 0}">
+
+                        <a href="#"
+                           class="page-btn first"
+                           th:classappend="${popupList.first} ? ' disabled'"
+                           th:onclick="|doSearch(0); return false;|">
+                            &laquo;
+                        </a>
+
+                        <a href="#"
+                           class="page-btn prev"
+                           th:classappend="${popupList.first} ? ' disabled'"
+                           th:onclick="|doSearch(${popupList.page - 1}); return false;|">
+                            &lsaquo;
+                        </a>
+
+                        <th:block th:with="startPage=${(popupList.page / 5) * 5},
+                        endPage=${T(java.lang.Math).min(startPage + 4, popupList.totalPages - 1)}">
+
+                            <a href="#"
+                               class="page-number"
+                               th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+                               th:classappend="${pageNum == popupList.page} ? ' active'"
+                               th:text="${pageNum + 1}"
+                               th:onclick="|doSearch(${pageNum}); return false;|">
+                            </a>
+
+                        </th:block>
+
+                        <a href="#"
+                           class="page-btn next"
+                           th:classappend="${popupList.last} ? ' disabled'"
+                           th:onclick="|doSearch(${popupList.page + 1}); return false;|">
+                            &rsaquo;
+                        </a>
+
+                        <a href="#"
+                           class="page-btn last"
+                           th:classappend="${popupList.last} ? ' disabled'"
+                           th:onclick="|doSearch(${popupList.totalPages - 1}); return false;|">
+                            &raquo;
+                        </a>
+
+                    </nav>
+
+                    <div class="btn-area">
+
+                        <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="location.href='popup_write.html'">
+
+                            새 팝업 등록
+
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
         </section>
 
     </main>

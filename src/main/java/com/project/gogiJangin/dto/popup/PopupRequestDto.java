@@ -16,6 +16,7 @@ public class PopupRequestDto {
     private String puImagePath;
     private LocalDateTime puStartDt;
     private LocalDateTime puEndDt;
+    private String status;
 
     @Builder
     public PopupRequestDto(Long puId,
@@ -23,12 +24,14 @@ public class PopupRequestDto {
                            MultipartFile puImage,
                            String puImagePath,
                            LocalDateTime puStartDt,
-                           LocalDateTime puEndDt) {
+                           LocalDateTime puEndDt,
+                           String status) {
         this.puId = puId;
         this.puTitle = puTitle;
         this.puImage = puImage;
         this.puImagePath = puImagePath;
         this.puStartDt = puStartDt;
         this.puEndDt = puEndDt;
+        this.status = status;
     }
 }

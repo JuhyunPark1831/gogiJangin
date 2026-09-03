@@ -31,7 +31,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/admin/**").authenticated()
                         .anyRequest().permitAll()
-                )
+                ) //todo: 로그인 화면 replace 해결
 
                 .formLogin(form -> form
                         .loginPage("/admin/login.do")

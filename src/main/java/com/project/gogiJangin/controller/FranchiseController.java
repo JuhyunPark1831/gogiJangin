@@ -43,12 +43,6 @@ public class FranchiseController {
         return CustomResponseEntity.success(null, franchiseService.getFranchiseDetail(frId));
     }
 
-    @GetMapping("/franchise/api/viewFranchiseList.do")
-    @ResponseBody
-    public CustomResponseEntity<PageResponse<FranchiseResponseDto>> viewFranchiseList(Pageable pageable) {
-        return CustomResponseEntity.success(null, franchiseService.getFranchiseList(pageable));
-    }
-
     @PutMapping("/franchise/api/editFranchise.do")
     @ResponseBody
     public CustomResponseEntity<Long> editFranchise(@RequestBody FranchiseRequestDto requestDto) {
