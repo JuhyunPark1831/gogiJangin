@@ -135,4 +135,21 @@ public class PopupServiceImpl implements PopupService {
         fileHandler.deleteAllFileByAfGroupId(popup.getPuAfGroupId());
         popup.softDelete();
     }
+
+    @Override
+    public List<PopupResponseDto> getActivePopupList() {
+        List<Popup> popupList = popupRepository.findAllActiveList();
+
+        return popupList.stream()
+                .map(popup -> PopupResponseDto.builder()
+                        .popup(popup)
+                        .puAfId(
+                                attachFileRepository.findAfIdByAfGroupId(
+                                        popup.getPuAfGroupId()
+                                )
+                        )
+                        .build()
+                )
+                .toList();
+    }
 }
