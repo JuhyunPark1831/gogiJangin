@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <title></title>
 
     <link rel="stylesheet" href="/admin/css/style.css">
@@ -14,51 +14,107 @@
 
 <body>
 
-    <!-- =========================================
-        Header
-    ========================================== -->
+    <script>
+        $(document).ready(function () {
 
-    <header class="header">
+            $("#btn-save").on("click", function() {
+                doSave();
+            });
 
-        <div class="inner">
+            $("#btn-cancel").on("click", function() {
+                location.href = "/admin/popup/list.do";
+            });
 
-            <h1 class="logo">
-                <a href="#">
-                    <img src="/admin/images/logo.png" alt="">
-                </a>
-            </h1>
+            $("#popupImage").on("change", function() {
 
-            <nav class="gnb">
+                const file = this.files[0];
 
-                <ul>
+                if (!file) {
+                    return;
+                }
 
-                    <li class="active">
-                        <a href="popup_list.html">팝업관리</a>
-                    </li>
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#imagePreview")
+                        .attr("src", e.target.result)
+                        .show();
 
-                    <li>
-                        <a href="review_list.html">리뷰관리</a>
-                    </li>
+                    $(".upload-icon").hide();
+                    $(".upload-area strong").hide();
+                    $(".upload-area p").hide();
+                    $(".btn-upload").hide();
+                }
 
-                    <li>
-                        <a href="inquiry_list.html">가맹문의관리</a>
-                    </li>
+                reader.readAsDataURL(file);
+            });
+        });
 
-                </ul>
+        function doSave() {
 
-            </nav>
+            const puTitle = $('#puTitle');
+            const puImage = $('#popupImage');
+            const puStartDt = $('#puStartDt');
+            const puEndDt = $('#puEndDt');
 
-            <div class="header-util">
+            if (!puTitle.val()) {
+                alert("제목을 입력해주세요");
+                puTitle.focus();
+                return;
+            }
 
-                <form th:action="@{/admin/logout.do}" method="post">
-                    <button type="submit" class="btn-logout">로그아웃</button>
-                </form>
+            if (puImage[0].files.length === 0) {
+                alert("이미지를 등록해주세요");
+                puImage.focus();
+                return;
+            }
 
-            </div>
+            if (!puStartDt.val()) {
+                alert("노출 시작 날짜를 입력해주세요");
+                puStartDt.focus();
+                return;
+            }
 
-        </div>
+            if (!puEndDt.val()) {
+                alert("노출 종료 날짜를 입력해주세요");
+                puEndDt.focus();
+                return;
+            }
 
-    </header>
+            const formData = new FormData();
+            const imageFile = puImage[0].files[0];
+
+            formData.append('puTitle', puTitle.val());
+            formData.append('puImage', imageFile);
+            formData.append('puStartDt', puStartDt.val() + 'T00:00:01');
+            formData.append('puEndDt', puEndDt.val() + 'T00:00:01');
+
+            $.ajax({
+                url: '/admin/popup/api/postPopup.do',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function () {
+                    alert("팝업이 등록되었습니다.");
+                    location.href = "/admin/popup/list.do";
+                },
+
+                error: function (xhr) {
+
+                    const response = xhr.responseJSON;
+
+                    if (response && response.message) {
+                        alert(response.message);
+                    } else {
+                        alert('서버 오류가 발생했습니다.');
+                    }
+                }
+            });
+        }
+    </script>
+
+    <div th:replace="~{admin/header :: header}"></div>
 
     <!-- =========================================
         Main
@@ -113,6 +169,7 @@
                                     <input
                                         type="text"
                                         class="form-input"
+                                        id="puTitle"
                                         placeholder="제목을 입력하세요.">
 
                                 </td>
@@ -134,11 +191,18 @@
                                         <input
                                             type="file"
                                             id="popupImage"
+                                            accept="image/jpeg,image/png"
                                             hidden>
 
                                         <label
                                             for="popupImage"
                                             class="upload-area">
+
+                                            <img
+                                                id="imagePreview"
+                                                src=""
+                                                alt="이미지 미리보기"
+                                                style="display: none;">
 
                                             <div class="upload-icon">
 
@@ -186,7 +250,8 @@
 
                                         <input
                                             type="date"
-                                            class="form-date">
+                                            class="form-date"
+                                            id="puStartDt">
 
                                         <span class="date-wave">
 
@@ -196,7 +261,8 @@
 
                                         <input
                                             type="date"
-                                            class="form-date">
+                                            class="form-date"
+                                            id="puEndDt">
 
                                     </div>
 
@@ -216,15 +282,17 @@
 
                     <button
                         type="button"
-                        class="btn btn-gray">
+                        class="btn btn-gray"
+                        id="btn-cancel">
 
                         취소하기
 
                     </button>
 
                     <button
-                        type="submit"
-                        class="btn btn-primary">
+                        type="button"
+                        class="btn btn-primary"
+                        id="btn-save">
 
                         등록하기
 

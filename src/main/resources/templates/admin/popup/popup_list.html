@@ -163,7 +163,7 @@
                             <tr th:each="popup, stat : ${popupList.content}">
                                 <td th:text="${popupList.page * popupList.size + stat.index + 1}">1</td>
                                 <td class="subject">
-                                    <a th:href="@{/admin/popup/detail.do(puId=${popup.puId})}"
+                                    <a th:href="@{/admin/popup/view.do/{puId}(puId=${popup.puId})}"
                                        th:text="${popup.puTitle}">
                                         팝업 제목
                                     </a>
@@ -243,7 +243,7 @@
                         <button
                                 type="button"
                                 class="btn btn-primary"
-                                onclick="location.href='popup_write.html'">
+                                onclick="location.href='/admin/popup/write.do'">
 
                             새 팝업 등록
 

@@ -17,14 +17,28 @@ public class PopupResponseDto {
     private Long puAfId;
     private LocalDateTime puStartDt;
     private LocalDateTime puEndDt;
+    private String status;
+    private LocalDateTime regDt;
 
     @Builder
     public PopupResponseDto(Popup popup,
                             Long puAfId) {
+
         this.puId = popup.getPuId();
         this.puTitle = popup.getPuTitle();
         this.puAfId = puAfId;
         this.puStartDt = popup.getPuStartDt();
         this.puEndDt = popup.getPuEndDt();
+        this.regDt = popup.getRegDt();
+
+        LocalDateTime now = LocalDateTime.now();
+
+        if (now.isBefore(popup.getPuStartDt())) {
+            this.status = "01";
+        } else if (now.isAfter(popup.getPuEndDt())) {
+            this.status = "03";
+        } else {
+            this.status = "02";
+        }
     }
 }

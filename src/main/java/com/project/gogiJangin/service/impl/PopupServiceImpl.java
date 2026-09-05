@@ -80,7 +80,7 @@ public class PopupServiceImpl implements PopupService {
         if (requestDto != null) {
             popupPage = popupRepository.search(requestDto, sortedPageable);
         } else {
-            popupPage = popupRepository.findAll(sortedPageable);
+            popupPage = popupRepository.findAllByDelYn("N", sortedPageable);
         }
 
         List<PopupResponseDto> content = popupPage.getContent()

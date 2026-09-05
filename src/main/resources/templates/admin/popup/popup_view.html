@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <title></title>
 
     <link rel="stylesheet" href="/admin/css/style.css">
@@ -18,47 +18,41 @@
         Header
     ========================================== -->
 
-    <header class="header">
+    <script>
+        $(document).ready(function () {
 
-        <div class="inner">
+            $("#btn-delete").on("click", function() {
+                doDelete();
+            });
 
-            <h1 class="logo">
-                <a href="#">
-                    <img src="/admin/images/logo.png" alt="">
-                </a>
-            </h1>
+            function doDelete() {
 
-            <nav class="gnb">
+                if (confirm("팝업을 삭제하시겠습니까?")) {
 
-                <ul>
+                    $.ajax({
+                        url: '/admin/popup/api/deletePopup.do/' + $("#puId").val(),
+                        type: 'DELETE',
+                        success: function () {
+                            alert("팝업이 삭제되었습니다.");
+                            location.href = "/admin/popup/list.do";
+                        },
+                        error: function (xhr) {
 
-                    <li class="active">
-                        <a href="popup_list.html">팝업관리</a>
-                    </li>
+                            const response = xhr.responseJSON;
 
-                    <li>
-                        <a href="review_list.html">리뷰관리</a>
-                    </li>
+                            if (response && response.message) {
+                                alert(response.message);
+                            } else {
+                                alert('서버 오류가 발생했습니다.');
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    </script>
 
-                    <li>
-                        <a href="inquiry_list.html">가맹문의관리</a>
-                    </li>
-
-                </ul>
-
-            </nav>
-
-            <div class="header-util">
-
-                <form th:action="@{/admin/logout.do}" method="post">
-                    <button type="submit" class="btn-logout">로그아웃</button>
-                </form>
-
-            </div>
-
-        </div>
-
-    </header>
+    <div th:replace="~{admin/header :: header}"></div>
 
     <!-- =========================================
         Main
@@ -87,6 +81,8 @@
 
             <form>
 
+                <input type="hidden" id="puId" th:value="${popupDetail.puId}" />
+
                 <div class="form-table">
 
                     <table>
@@ -108,10 +104,8 @@
                                     제목
                                 </th>
 
-                                <td>
-                                    	
-                                    [이벤트] 고기장인 삼겹살 출시 기념 10% 할인 쿠폰
-
+                                <td th:text="${popupDetail.puTitle}">
+                                    팝업 제목
                                 </td>
 
                             </tr>
@@ -125,11 +119,15 @@
                                 </th>
 
                                 <td>
-                                    	
-                                    <span class="badge badge-orange">
+                                    <span
+                                        th:class="${popupDetail.status == '01' ? 'badge badge-blue' :
+                                                  (popupDetail.status == '02' ? 'badge badge-orange' :
+                                                  'badge badge-gray')}"
+                                        th:text="${popupDetail.status == '01' ? '예약' :
+                                                  (popupDetail.status == '02' ? '노출중' :
+                                                  '종료')}">
                                         노출중
                                     </span>
-
                                 </td>
 
                             </tr>
@@ -144,7 +142,10 @@
 
                                 <td>
 
-                                    <img src="/admin/images/02.jpg" alt="">
+                                    <img
+                                            th:if="${popupDetail.puAfId != null}"
+                                            th:src="@{/file/api/getImageSource.do/{afId}(afId=${popupDetail.puAfId})}"
+                                            alt="팝업 이미지">
 
                                 </td>
 
@@ -160,7 +161,13 @@
 
                                 <td>
 
-                                    2026년 7월 20일 ~ 2026년 7월 27일
+                                    <span th:text="${#temporals.format(popupDetail.puStartDt, 'yyyy년 M월 d일')}">
+                                        2026년 7월 20일
+                                    </span>
+                                    ~
+                                    <span th:text="${#temporals.format(popupDetail.puEndDt, 'yyyy년 M월 d일')}">
+                                        2026년 7월 27일
+                                    </span>
 
                                 </td>
 
@@ -174,16 +181,15 @@
                                     등록일
                                 </th>
 
-                                <td>
-
+                                <td th:text="${#temporals.format(popupDetail.regDt, 'yyyy년 M월 d일')}">
                                     2026년 7월 20일
-
                                 </td>
 
                             </tr>
 
                             <!-- 수정일 -->
 
+                            <!--
                             <tr>
 
                                 <th>
@@ -197,6 +203,8 @@
                                 </td>
 
                             </tr>
+                            -->
+                        <!-- todo: 추후작업 -->
 
                         </tbody>
 
@@ -211,7 +219,7 @@
                     <button
                         type="button"
                         class="btn btn-gray"
-                        onclick="location.href='popup_list.html'">
+                        onclick="location.href='/admin/popup/list.do'">
 
                         목록
 
@@ -219,12 +227,14 @@
 
                     <button
                         type="button"
-                        class="btn btn-gray">
+                        class="btn btn-gray"
+                        id="btn-delete">
 
                         삭제
 
                     </button>
 
+                    <!--
                     <button
                         type="submit"
                         class="btn btn-primary">
@@ -232,6 +242,8 @@
                         수정
 
                     </button>
+                    -->
+                    <!-- todo: 추후수정 -->
 
                 </div>
 
