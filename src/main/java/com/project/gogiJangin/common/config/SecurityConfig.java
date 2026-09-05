@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,6 +17,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/login.do").permitAll()
                         .requestMatchers(
@@ -29,7 +31,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/admin/**").authenticated()
                         .anyRequest().permitAll()
-                )
+                ) //todo: 로그인 화면 replace 해결
 
                 .formLogin(form -> form
                         .loginPage("/admin/login.do")
@@ -40,7 +42,7 @@ public class SecurityConfig {
                 )
 
                 .logout(logout -> logout
-                        .logoutUrl("/admin/logout")
+                        .logoutUrl("/admin/logout.do")
                         .logoutSuccessUrl("/admin/login.do")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")

@@ -43,19 +43,13 @@ public class FranchiseController {
         return CustomResponseEntity.success(null, franchiseService.getFranchiseDetail(frId));
     }
 
-    @GetMapping("/franchise/api/viewFranchiseList.do")
-    @ResponseBody
-    public CustomResponseEntity<PageResponse<FranchiseResponseDto>> viewFranchiseList(Pageable pageable) {
-        return CustomResponseEntity.success(null, franchiseService.getFranchiseList(pageable));
-    }
-
     @PutMapping("/franchise/api/editFranchise.do")
     @ResponseBody
     public CustomResponseEntity<Long> editFranchise(@RequestBody FranchiseRequestDto requestDto) {
         return CustomResponseEntity.success("가맹문의가 변경되었습니다", franchiseService.updateFranchise(requestDto));
     }
 
-    @DeleteMapping("/franchise/api/deleteFranchise.do/{frId}")
+    @DeleteMapping("/franchisee/api/deleteFranchise.do/{frId}")
     @ResponseBody
     public CustomResponseEntity<Object> deleteFranchise(@PathVariable Long frId) {
         franchiseService.deleteFranchise(frId);

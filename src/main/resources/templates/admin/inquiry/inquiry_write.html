@@ -50,9 +50,9 @@
 
             <div class="header-util">
 
-                <a href="#" class="btn-logout">
-                    로그아웃
-                </a>
+                <form th:action="@{/admin/logout.do}" method="post">
+                    <button type="submit" class="btn-logout">로그아웃</button>
+                </form>
 
             </div>
 

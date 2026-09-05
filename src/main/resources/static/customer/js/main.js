@@ -184,28 +184,16 @@ function getCookie(name){
 }
 
 
-const popups=[
-
+const popups = [
     {
-        type:"html",
-        id:"salesPopup"
-    },
-    
-    {
-        type:"image",
-        src:"images/popup/01.jpg"
+        type: "html",
+        id: "salesPopup"
     },
 
-    {
-        type:"image",
-        src:"images/popup/02.jpg"
-    },
-
-    {
-        type:"image",
-        src:"images/popup/03.jpg"
-    }
-
+    ...serverPopups.map(popup => ({
+        type: "image",
+        src: "/file/api/getImageSource.do/" + popup.puAfId
+    }))
 ];
 
 let current = 0;

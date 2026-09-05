@@ -28,7 +28,7 @@ public class FranchiseServiceImpl implements FranchiseService {
     private final FranchiseRepository franchiseRepository;
     private final RegionRepository regionRepository;
 
-    // 프랜차이즈 CREATE
+    // 프랜차이즈 생성
     @Override
     public Long addFranchise(FranchiseRequestDto requestDto) {
         return franchiseRepository.save(Franchise.builder()

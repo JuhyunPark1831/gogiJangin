@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+
+<header th:fragment="header" class="header">
+
+  <div class="inner">
+
+    <h1 class="logo">
+      <a th:href="@{/admin/popup/list.do}">
+        <img src="/admin/images/logo.png" alt="">
+      </a>
+    </h1>
+
+    <nav class="gnb">
+      <ul>
+        <li>
+          <a th:href="@{/admin/popup/list.do}">팝업관리</a>
+        </li>
+
+        <li>
+          <a th:href="@{/admin/review/list.do}">리뷰관리</a>
+        </li>
+
+        <li>
+          <a th:href="@{/admin/inquiry/list.do}">가맹문의관리</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="header-util">
+      <form th:action="@{/admin/logout.do}" method="post">
+        <button type="submit" class="btn-logout">로그아웃</button>
+      </form>
+    </div>
+
+  </div>
+
+</header>
+
+</html>

@@ -28,22 +28,29 @@ public class FileController {
         return CustomResponseEntity.success("파일 저장 성공", fileHandler.saveFiles(files, path));
     }
 
-    @GetMapping("/api/getImageSource/{afId}")
+    @GetMapping("/api/getImageSource.do/{afId}")
     @ResponseBody
     public ResponseEntity<FileSystemResource> getImage(@PathVariable Long afId) {
         return fileHandler.getImageSource(afId);
     }
 
-    @GetMapping("/api/downloadFile/{afId}")
+    @GetMapping("/api/downloadFile.do/{afId}")
     @ResponseBody
     public ResponseEntity<FileSystemResource> downloadFile(@PathVariable Long afId) {
         return fileHandler.downloadFile(afId);
     }
 
-    @DeleteMapping("/api/deleteFile/{afId}")
+    @DeleteMapping("/api/deleteFile.do/{afId}")
     @ResponseBody
     public CustomResponseEntity<Object> deleteFile(@PathVariable Long afId) {
         fileHandler.deleteFile(afId);
         return CustomResponseEntity.success("파일이 삭제되었습니다.", null);
+    }
+
+    @DeleteMapping("/api/deleteAllFile.do/{afGroupId}")
+    @ResponseBody
+    public CustomResponseEntity<Object> deleteAllFile(@PathVariable Long afGroupId) {
+        fileHandler.deleteAllFileByAfGroupId(afGroupId);
+        return CustomResponseEntity.success("파일이 전부 삭제되었습니다.", null);
     }
 }
