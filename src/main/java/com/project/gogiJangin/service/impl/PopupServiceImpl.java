@@ -133,6 +133,7 @@ public class PopupServiceImpl implements PopupService {
                 new CustomException(ErrorCode.NOT_FOUND_POPUP));
 
         fileHandler.deleteAllFileByAfGroupId(popup.getPuAfGroupId());
+
         popup.softDelete();
     }
 
