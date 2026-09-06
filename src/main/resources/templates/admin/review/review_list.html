@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <title></title>
 
     <link rel="stylesheet" href="/admin/css/style.css">
@@ -14,51 +14,56 @@
 
 <body>
 
-    <!-- =========================================
-        Header
-    ========================================== -->
+    <script>
+        $(document).ready(function () {
 
-    <header class="header">
+            $("#btn-search").on("click", function() {
+                doSearch();
+            });
 
-        <div class="inner">
+            $("#btn-clear").on("click", function() {
+                $("#startDate").val("");
+                $("#endDate").val("");
+                $("#title").val("");
+                $("#status").val("");
+            });
+        });
 
-            <h1 class="logo">
-                <a href="#">
-                    <img src="/admin/images/logo.png" alt="">
-                </a>
-            </h1>
+        function doSearch(page = 0) {
 
-            <nav class="gnb">
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
 
-                <ul>
+            const requestDto = {
+                puTitle: $('#title').val() || null,
+                puStartDt: startDate ? startDate + 'T00:00:00' : null,
+                puEndDt: endDate ? endDate + 'T23:59:59' : null,
+                status: $('#status').val() || null
+            };
 
-                    <li>
-                        <a href="popup_list.html">팝업관리</a>
-                    </li>
+            $.ajax({
+                url: '/admin/popup/api/list.do?page=' + page,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestDto),
+                success: function (html) {
+                    $('#popup-list').replaceWith(html);
+                },
+                error: function (xhr) {
 
-                    <li class="active">
-                        <a href="review_list.html">리뷰관리</a>
-                    </li>
+                    const response = xhr.responseJSON;
 
-                    <li>
-                        <a href="inquiry_list.html">가맹문의관리</a>
-                    </li>
+                    if (response && response.message) {
+                        alert(response.message);
+                    } else {
+                        alert('서버 오류가 발생했습니다.');
+                    }
+                }
+            });
+        }
+    </script>
 
-                </ul>
-
-            </nav>
-
-            <div class="header-util">
-
-                <form th:action="@{/admin/logout.do}" method="post">
-                    <button type="submit" class="btn-logout">로그아웃</button>
-                </form>
-
-            </div>
-
-        </div>
-
-    </header>
+    <div th:replace="~{admin/header :: header}"></div>
 
     <!-- =========================================
         Main
@@ -82,6 +87,46 @@
 
             </div>
 
+            <!-- 검색 영역 -->
+            <div class="search-box">
+
+                <div class="search-item">
+                    <label for="startDate">노출일자</label>
+
+                    <div class="date-wrap">
+                        <input type="date" id="startDate" name="startDate">
+                        <span>~</span>
+                        <input type="date" id="endDate" name="endDate">
+                    </div>
+                </div>
+
+                <div class="search-item">
+                    <label for="title">제목</label>
+                    <input type="text"
+                           id="title"
+                           name="searchName"
+                           placeholder="제목을 입력하세요">
+                </div>
+
+                <div class="search-item">
+                    <label for="status">상태</label>
+                    <select id="status" name="searchStatus">
+                        <option value="">전체</option>
+                        <option value="01">예약</option>
+                        <option value="02">노출중</option>
+                        <option value="03">종료</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn-search" id="btn-search">
+                    검색
+                </button>
+
+                <button type="button" class="btn-search" id="btn-clear">
+                    초기화
+                </button>
+
+            </div>
 
             <!-- Table -->
 
@@ -258,6 +303,18 @@
 
                 </nav>
 
+                <div class="btn-area">
+
+                    <button
+                            type="button"
+                            class="btn btn-primary"
+                            onclick="location.href='/admin/review/write.do'">
+
+                        새 리뷰 등록
+
+                    </button>
+
+                </div>
 
             </div>
 

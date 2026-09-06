@@ -136,6 +136,7 @@ public class PopupServiceImpl implements PopupService {
         popup.softDelete();
     }
 
+    // 홈페이지 표출 팝업 조회
     @Override
     public List<PopupResponseDto> getActivePopupList() {
         List<Popup> popupList = popupRepository.findAllActiveList();
