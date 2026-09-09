@@ -17,8 +17,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRep
     @Query("""
         SELECT r
         FROM Review r
-        WHERE r.rvStatus == '02'
+        WHERE r.rvStatus = '02'
           AND r.delYn = 'N'
     """)
-    List<Popup> findAllActiveList();
+    List<Review> findAllActiveList();
 }

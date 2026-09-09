@@ -21,7 +21,7 @@ public class ReviewRequestDto {
     private LocalDateTime rvEndDt;
     private String rvStatus;
     private String rvPlatform;
-    private int rvOrder;
+    private Integer rvOrder;
 
     @Builder
     public ReviewRequestDto(Long rvId,
@@ -32,7 +32,7 @@ public class ReviewRequestDto {
                             LocalDateTime rvEndDt,
                             String rvStatus,
                             String rvPlatform,
-                            int rvOrder) {
+                            Integer rvOrder) {
         this.rvId = rvId;
         this.rvTitle = rvTitle;
         this.rvImage = rvImage;

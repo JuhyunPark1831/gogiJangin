@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <title></title>
 
     <link rel="stylesheet" href="/admin/css/style.css">
@@ -14,51 +14,115 @@
 
 <body>
 
-    <!-- =========================================
-        Header
-    ========================================== -->
+    <script>
+        $(document).ready(function () {
 
-    <header class="header">
+            $("#btn-save").on("click", function() {
+                doSave();
+            });
 
-        <div class="inner">
+            $("#btn-cancel").on("click", function() {
+                location.href = "/admin/review/list.do";
+            });
 
-            <h1 class="logo">
-                <a href="#">
-                    <img src="/admin/images/logo.png" alt="">
-                </a>
-            </h1>
+            $("#reviewImage").on("change", function() {
 
-            <nav class="gnb">
+                const file = this.files[0];
 
-                <ul>
+                if (!file) {
+                    return;
+                }
 
-                    <li>
-                        <a href="popup_list.html">팝업관리</a>
-                    </li>
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#imagePreview")
+                        .attr("src", e.target.result)
+                        .show();
 
-                    <li class="active">
-                        <a href="review_list.html">리뷰관리</a>
-                    </li>
+                    $(".upload-icon").hide();
+                    $(".upload-area strong").hide();
+                    $(".upload-area p").hide();
+                    $(".btn-upload").hide();
+                }
 
-                    <li>
-                        <a href="inquiry_list.html">가맹문의관리</a>
-                    </li>
+                reader.readAsDataURL(file);
+            });
+        });
 
-                </ul>
+        function doSave() {
 
-            </nav>
+            const rvTitle = $('#rvTitle');
+            const rvPlatform = $('#rvPlatform');
+            const rvImage = $('#reviewImage');
+            const rvStatus = $('#rvStatus');
+            const rvOrder = $('#rvOrder');
 
-            <div class="header-util">
+            if (!rvTitle.val()) {
+                alert("제목을 입력해주세요");
+                rvTitle.focus();
+                return;
+            }
 
-                <form th:action="@{/admin/logout.do}" method="post">
-                    <button type="submit" class="btn-logout">로그아웃</button>
-                </form>
+            if (!rvPlatform.val()) {
+                alert("플랫폼을 선택해주세요");
+                rvPlatform.focus();
+                return;
+            }
 
-            </div>
+            if (rvImage[0].files.length === 0) {
+                alert("이미지를 등록해주세요");
+                rvImage.focus();
+                return;
+            }
 
-        </div>
+            if (!rvStatus.val()) {
+                alert("노출여부를 선택해주세요");
+                rvStatus.focus();
+                return;
+            }
 
-    </header>
+            if (!rvOrder.val()) {
+                alert("정렬순서를 입력해주세요");
+                rvOrder.focus();
+                return;
+            }
+
+            const formData = new FormData();
+            const imageFile = rvImage[0].files[0];
+
+            formData.append('rvTitle', rvTitle.val());
+            formData.append('rvPlatform', rvPlatform.val());
+            formData.append('rvImage', imageFile);
+            formData.append('rvStatus', rvStatus.val());
+            formData.append('rvOrder', rvOrder.val());
+
+            $.ajax({
+                url: '/admin/review/api/addReview.do',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function () {
+                    alert("리뷰가 등록되었습니다.");
+                    location.href = "/admin/review/list.do";
+                },
+
+                error: function (xhr) {
+
+                    const response = xhr.responseJSON;
+
+                    if (response && response.message) {
+                        alert(response.message);
+                    } else {
+                        alert('서버 오류가 발생했습니다.');
+                    }
+                }
+            });
+        }
+    </script>
+
+    <div th:replace="~{admin/header :: header}"></div>
 
     <!-- =========================================
         Main
@@ -113,6 +177,7 @@
                                     <input
                                         type="text"
                                         class="form-input"
+                                        id="rvTitle"
                                         placeholder="제목을 입력하세요.">
 
                                 </td>
@@ -126,7 +191,7 @@
                                 </th>
 
                                 <td>
-                                    <select class="form-select">
+                                    <select class="form-select" id="rvPlatform">
 
                                         <option value="">플랫폼 선택</option>
 
@@ -169,12 +234,18 @@
 
                                         <input
                                             type="file"
-                                            id="popupImage"
+                                            id="reviewImage"
                                             hidden>
 
                                         <label
-                                            for="popupImage"
+                                            for="reviewImage"
                                             class="upload-area">
+
+                                            <img
+                                                    id="imagePreview"
+                                                    src=""
+                                                    alt="이미지 미리보기"
+                                                    style="display: none;">
 
                                             <div class="upload-icon">
 
@@ -218,11 +289,11 @@
 
                                 <td>
 
-                                    <select class="form-select">
+                                    <select class="form-select" id="rvStatus">
 
-                                        <option value="Y">노출</option>
+                                        <option value="02">노출</option>
 
-                                        <option value="N">숨김</option>
+                                        <option value="04">숨김</option>
 
                                     </select>                                    
 
@@ -236,14 +307,18 @@
                                     정렬 순서
                                 </th>
 
-                                <td>
+                                <td style="display: flex;">
 
                                      <input
                                         type="number"
                                         class="form-input"
+                                        id="rvOrder"
                                         min="1"
                                         step="1"
-                                        value="1" style="width: 220px;">
+                                        value="1"
+                                        style="width: 220px;">
+
+                                    <div style="align-content: center;color: #a8a8a8;margin-left: 10px;">정렬순서가 같은 리뷰들은 최근 등록한 순으로 표출됩니다</div>
 
                                 </td>
 
@@ -261,15 +336,17 @@
 
                     <button
                         type="button"
-                        class="btn btn-gray">
+                        class="btn btn-gray"
+                        id="btn-cancel">
 
                         취소하기
 
                     </button>
 
                     <button
-                        type="submit"
-                        class="btn btn-primary">
+                        type="button"
+                        class="btn btn-primary"
+                        id="btn-save">
 
                         등록하기
 

@@ -61,7 +61,7 @@ public class PopupController {
 
     @DeleteMapping("/admin/popup/api/deletePopup.do/{puId}")
     @ResponseBody
-    public CustomResponseEntity<Object> deleteFranchise(@PathVariable Long puId) {
+    public CustomResponseEntity<Object> deletePopup(@PathVariable Long puId) {
         popupService.deletePopup(puId);
         return CustomResponseEntity.success("팝업이 삭제되었습니다", null);
     }

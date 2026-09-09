@@ -35,19 +35,19 @@
             const endDate = $('#endDate').val();
 
             const requestDto = {
-                puTitle: $('#title').val() || null,
-                puStartDt: startDate ? startDate + 'T00:00:00' : null,
-                puEndDt: endDate ? endDate + 'T23:59:59' : null,
-                status: $('#status').val() || null
+                rvTitle: $('#title').val() || null,
+                rvStartDt: startDate ? startDate + 'T00:00:00' : null,
+                rvEndDt: endDate ? endDate + 'T23:59:59' : null,
+                rvStatus: $('#status').val() || null
             };
 
             $.ajax({
-                url: '/admin/popup/api/list.do?page=' + page,
+                url: '/admin/review/api/list.do?page=' + page,
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(requestDto),
                 success: function (html) {
-                    $('#popup-list').replaceWith(html);
+                    $('#review-list').replaceWith(html);
                 },
                 error: function (xhr) {
 
@@ -112,9 +112,8 @@
                     <label for="status">상태</label>
                     <select id="status" name="searchStatus">
                         <option value="">전체</option>
-                        <option value="01">예약</option>
                         <option value="02">노출중</option>
-                        <option value="03">종료</option>
+                        <option value="04">숨김</option>
                     </select>
                 </div>
 
@@ -129,193 +128,136 @@
             </div>
 
             <!-- Table -->
-
-            <div class="table-wrap">
-
-                <table class="table-list">
-
-                    <colgroup>
-
-                        <col style="width:80px;">
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-
-                    </colgroup>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>번호</th>
-                            <th>미리보기</th>
-                            <th>제목</th>
-                            <th>플랫폼</th>
-                            <th>등록일</th>
-                            <th>노출</th>
-                            <th>순서</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-
-                            <td>1</td>
-
-                            <td class="subject">
-                                <a href="#" class="align-center">
-                                    <img src="/admin/images/02.jpg" alt="" class="review_preview">
-                                </a>
-                            </td>
-
-                            <td class="nowrap">산들바람 리뷰</td>
-
-                            <td>네이버</td>
-
-                            <td>2026-07-24</td>
-
-                            <td>
-                                <span class="badge badge-blue">
-                                    노출중
-                                </span>
-                            </td>
-
-                            <td>1</td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>1</td>
-
-                            <td class="subject">
-                                <a href="#" class="align-center">
-                                    <img src="/admin/images/02.jpg" alt="" class="review_preview">
-                                </a>
-                            </td>
-
-                            <td class="nowrap">산들바람 리뷰</td>
-
-                            <td>네이버</td>
-
-                            <td>2026-07-24</td>
-
-                            <td>
-                                <span class="badge badge-blue">
-                                    노출중
-                                </span>
-                            </td>
-
-                            <td>1</td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>1</td>
-
-                            <td class="subject">
-                                <a href="#" class="align-center">
-                                    <img src="/admin/images/02.jpg" alt="" class="review_preview">
-                                </a>
-                            </td>
-
-                            <td class="nowrap">산들바람 리뷰</td>
-
-                            <td>네이버</td>
-
-                            <td>2026-07-24</td>
-
-                            <td>
-                                <span class="badge badge-blue">
-                                    노출중
-                                </span>
-                            </td>
-
-                            <td>1</td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>1</td>
-
-                            <td class="subject">
-                                <a href="#" class="align-center">
-                                    <img src="/admin/images/02.jpg" alt="" class="review_preview">
-                                </a>
-                            </td>
-
-                            <td class="nowrap">산들바람 리뷰</td>
-
-                            <td>네이버</td>
-
-                            <td>2026-07-24</td>
-
-                            <td>
-                                <span class="badge badge-gray">
-                                    숨김
-                                </span>
-                            </td>
-
-                            <td>1</td>
-
-                        </tr>
-
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-            <!-- Bottom -->
-
-            <div class="page-bottom">
-
-                <!-- Pagination -->
-
-                <nav class="pagination">
-
-                    <a href="#" class="page-btn first">&laquo;</a>
-
-                    <a href="#" class="page-btn prev">&lsaquo;</a>
-
-                    <a href="#" class="page-number active">1</a>
-
-                    <a href="#" class="page-number">2</a>
-
-                    <a href="#" class="page-number">3</a>
-
-                    <a href="#" class="page-number">4</a>
-
-                    <a href="#" class="page-number">5</a>
-
-                    <a href="#" class="page-btn next">&rsaquo;</a>
-
-                    <a href="#" class="page-btn last">&raquo;</a>
-
-                </nav>
-
-                <div class="btn-area">
-
-                    <button
-                            type="button"
-                            class="btn btn-primary"
-                            onclick="location.href='/admin/review/write.do'">
-
-                        새 리뷰 등록
-
-                    </button>
+            <div id="review-list" th:fragment="review-list">
+                <div class="table-wrap">
+
+                    <table class="table-list">
+
+                        <colgroup>
+
+                            <col style="width:80px;">
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+
+                        </colgroup>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>번호</th>
+                                <th>미리보기</th>
+                                <th>제목</th>
+                                <th>플랫폼</th>
+                                <th>등록일</th>
+                                <th>노출</th>
+                                <th>순서</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:each="review, stat : ${reviewList.content}">
+                                <td th:text="${reviewList.page * reviewList.size + stat.index + 1}">1</td>
+                                <td class="subject">
+                                    <a th:href="@{/admin/review/view.do/{puId}(puId=${review.rvId})}"
+                                       class="align-center">
+                                        <img
+                                                th:if="${review.rvAfId != null}"
+                                                th:src="@{/file/api/getImageSource.do/{afId}(afId=${review.rvAfId})}"
+                                                alt="리뷰 이미지" class="review_preview">
+                                    </a>
+                                </td>
+                                <td
+                                        class="nowrap"
+                                        th:text="${review.rvTitle}">리뷰 제목</td>
+                                <td th:text="${review.rvPlatform}">리뷰 플랫폼</td>
+                                <td th:text="${#temporals.format(review.regDt, 'yyyy-MM-dd')}">2026-07-24</td>
+                                <td>
+                                    <span th:switch="${review.rvStatus}">
+                                        <span th:case="'02'" class="badge badge-blue">노출중</span>
+                                        <span th:case="'04'" class="badge badge-gray">숨김</span>
+                                    </span>
+                                </td>
+                                <td th:text="${review.rvOrder}">1</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
 
                 </div>
 
+                <!-- Bottom -->
+
+                <div class="page-bottom">
+
+                    <!-- Pagination -->
+
+                    <nav class="pagination" th:if="${reviewList.totalPages > 0}">
+
+                        <a href="#"
+                           class="page-btn first"
+                           th:classappend="${reviewList.first} ? ' disabled'"
+                           th:onclick="|doSearch(0); return false;|">
+                            &laquo;
+                        </a>
+
+                        <a href="#"
+                           class="page-btn prev"
+                           th:classappend="${reviewList.first} ? ' disabled'"
+                           th:onclick="|doSearch(${reviewList.page - 1}); return false;|">
+                            &lsaquo;
+                        </a>
+
+                        <th:block th:with="startPage=${(reviewList.page / 5) * 5},
+                        endPage=${T(java.lang.Math).min(startPage + 4, reviewList.totalPages - 1)}">
+
+                            <a href="#"
+                               class="page-number"
+                               th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+                               th:classappend="${pageNum == reviewList.page} ? ' active'"
+                               th:text="${pageNum + 1}"
+                               th:onclick="|doSearch(${pageNum}); return false;|">
+                            </a>
+
+                        </th:block>
+
+                        <a href="#"
+                           class="page-btn next"
+                           th:classappend="${reviewList.last} ? ' disabled'"
+                           th:onclick="|doSearch(${reviewList.page + 1}); return false;|">
+                            &rsaquo;
+                        </a>
+
+                        <a href="#"
+                           class="page-btn last"
+                           th:classappend="${reviewList.last} ? ' disabled'"
+                           th:onclick="|doSearch(${reviewList.totalPages - 1}); return false;|">
+                            &raquo;
+                        </a>
+
+                    </nav>
+
+                    <div class="btn-area">
+
+                        <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="location.href='/admin/review/write.do'">
+
+                            새 리뷰 등록
+
+                        </button>
+
+                    </div>
+
+                </div>
             </div>
 
         </section>
