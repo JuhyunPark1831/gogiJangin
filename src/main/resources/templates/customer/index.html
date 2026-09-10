@@ -806,90 +806,17 @@
 
                 <div class="swiper-wrapper">
 
-                    <div class="swiper-slide">
+                    <div
+                            th:each="review : ${reviewList}"
+                            class="swiper-slide">
                         <article class="review-card">
-                            <img src="/customer/images/review/review_01.jpg" alt="">
+                            <img th:if="${review.rvAfId != null}"
+                                 th:src="@{/file/api/getImageSource.do/{afId}(afId=${review.rvAfId})}"
+                                 alt="">
                         </article>
                     </div>
 
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_02.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_03.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_04.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_05.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_06.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_07.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_08.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_09.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_10.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_11.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_12.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_13.jpg" alt="">
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="review-card">
-                            <img src="/customer/images/review/review_14.jpg" alt="">
-                        </article>
-                    </div>
-
+                    <!-- todo: 팝업 슬라이드 애니메이션 수정 필요 -->
                 </div>
 
             </div>        

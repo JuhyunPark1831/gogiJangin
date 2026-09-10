@@ -2559,3 +2559,31 @@ main {overflow: hidden;}
         font-size: 20px;
     }
 }
+
+
+/* 0906 팝업 스크롤 수정 */
+.popup-content{
+    display:flex !important;
+    flex-direction:column !important;
+    max-height:90vh !important;
+    height:auto !important;
+    overflow:hidden !important;
+}
+
+.popup-body{
+    position:relative !important;
+    overflow:hidden !important;
+}
+
+.popup-html,
+.popup-page,
+.sales-popup{
+    height:auto !important;
+}
+
+.sales-table-wrap{
+    max-height:calc(90vh - 320px) !important;
+    height:auto !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+}
