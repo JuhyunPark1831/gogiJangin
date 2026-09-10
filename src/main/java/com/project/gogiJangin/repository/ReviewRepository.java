@@ -19,6 +19,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRep
         FROM Review r
         WHERE r.rvStatus = '02'
           AND r.delYn = 'N'
+        ORDER BY r.rvOrder ASC
+            , r.regDt DESC
     """)
     List<Review> findAllActiveList();
 }

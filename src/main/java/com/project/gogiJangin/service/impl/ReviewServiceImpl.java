@@ -115,4 +115,21 @@ public class ReviewServiceImpl implements ReviewService {
         fileHandler.deleteAllFileByAfGroupId(review.getRvAfGroupId());
         review.softDelete();
     }
+
+    // 홈페이지 표출 리뷰 조회
+    @Override
+    public List<ReviewResponseDto> getActiveReviewList() {
+        List<Review> reviewList = reviewRepository.findAllActiveList();
+
+        return reviewList.stream()
+                .map(review -> ReviewResponseDto.builder()
+                        .review(review)
+                        .rvAfId(
+                                attachFileRepository.findAfIdByAfGroupId(
+                                        review.getRvAfGroupId()
+                                )
+                        )
+                        .build())
+                .toList();
+    }
 }
