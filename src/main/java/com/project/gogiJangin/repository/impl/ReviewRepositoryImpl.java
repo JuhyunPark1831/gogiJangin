@@ -65,9 +65,16 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 : null;
     }
 
-    private BooleanExpression rvRegDtContains(LocalDateTime rvStartDt, LocalDateTime rvEndDt) {
-        return rvStartDt != null
+    private BooleanExpression rvRegDtContains(
+            LocalDateTime rvStartDt,
+            LocalDateTime rvEndDt) {
+
+        return rvStartDt != null && rvEndDt != null
                 ? review.regDt.between(rvStartDt, rvEndDt)
+                : rvStartDt != null
+                ? review.regDt.goe(rvStartDt)
+                : rvEndDt != null
+                ? review.regDt.loe(rvEndDt)
                 : null;
     }
 

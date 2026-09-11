@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <title></title>
 
     <link rel="stylesheet" href="/admin/css/style.css">
@@ -14,51 +14,56 @@
 
 <body>
 
-    <!-- =========================================
-        Header
-    ========================================== -->
+    <script>
+        $(document).ready(function () {
 
-    <header class="header">
+            $("#btn-search").on("click", function() {
+                doSearch();
+            });
 
-        <div class="inner">
+            $("#btn-clear").on("click", function() {
+                $("#startDate").val("");
+                $("#endDate").val("");
+                $("#name").val("");
+                $("#status").val("");
+            });
+        });
 
-            <h1 class="logo">
-                <a href="#">
-                    <img src="/admin/images/logo.png" alt="">
-                </a>
-            </h1>
+        function doSearch(page = 0) {
 
-            <nav class="gnb">
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
 
-                <ul>
+            const requestDto = {
+                frName: $('#name').val() || null,
+                frStartDt: startDate ? startDate + 'T00:00:00' : null,
+                frEndDt: endDate ? endDate + 'T23:59:59' : null,
+                frStatus: $('#status').val() || null
+            };
 
-                    <li>
-                        <a href="popup_list.html">팝업관리</a>
-                    </li>
+            $.ajax({
+                url: '/admin/franchise/api/list.do?page=' + page,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestDto),
+                success: function (html) {
+                    $('#franchise-list').replaceWith(html);
+                },
+                error: function (xhr) {
 
-                    <li>
-                        <a href="review_list.html">리뷰관리</a>
-                    </li>
+                    const response = xhr.responseJSON;
 
-                    <li class="active">
-                        <a href="inquiry_list.html">가맹문의관리</a>
-                    </li>
+                    if (response && response.message) {
+                        alert(response.message);
+                    } else {
+                        alert('서버 오류가 발생했습니다.');
+                    }
+                }
+            });
+        }
+    </script>
 
-                </ul>
-
-            </nav>
-
-            <div class="header-util">
-
-                <form th:action="@{/admin/logout.do}" method="post">
-                    <button type="submit" class="btn-logout">로그아웃</button>
-                </form>
-
-            </div>
-
-        </div>
-
-    </header>
+    <div th:replace="~{admin/header :: header}"></div>
 
     <!-- =========================================
         Main
@@ -82,185 +87,166 @@
 
             </div>
 
+            <!-- 검색 영역 -->
+            <div class="search-box">
+
+                <div class="search-item">
+                    <label for="startDate">접수일자</label>
+
+                    <div class="date-wrap">
+                        <input type="date" id="startDate" name="startDate">
+                        <span>~</span>
+                        <input type="date" id="endDate" name="endDate">
+                    </div>
+                </div>
+
+                <div class="search-item">
+                    <label for="name">이름</label>
+                    <input type="text"
+                           id="name"
+                           name="searchName"
+                           placeholder="제목을 입력하세요">
+                </div>
+
+                <div class="search-item">
+                    <label for="status">상태</label>
+                    <select id="status" name="searchStatus">
+                        <option value="">전체</option>
+                        <option value="05">미확인</option>
+                        <option value="06">상담중</option>
+                        <option value="07">상담완료</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn-search" id="btn-search">
+                    검색
+                </button>
+
+                <button type="button" class="btn-search" id="btn-clear">
+                    초기화
+                </button>
+
+            </div>
 
             <!-- Table -->
 
-            <div class="table-wrap">
+            <div id="franchise-list" th:fragment="franchise-list">
+                <div class="table-wrap">
 
-                <table class="table-list">
+                    <table class="table-list">
 
-                    <colgroup>
+                        <colgroup>
 
-                        <col style="width:80px;">
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
-                        <col>
+                            <col style="width:80px;">
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
 
-                    </colgroup>
+                        </colgroup>
 
-                    <thead>
+                        <thead>
 
-                        <tr>
+                            <tr>
 
-                            <th>번호</th>
-                            <th>이름</th>
-                            <th>연락처</th>
-                            <th>희망지역</th>
-                            <th>검색경로</th>
-                            <th>접수일</th>
-                            <th>상태</th>
+                                <th>번호</th>
+                                <th>이름</th>
+                                <th>연락처</th>
+                                <th>희망지역</th>
+                                <th>검색경로</th>
+                                <th>접수일</th>
+                                <th>상태</th>
 
-                        </tr>
+                            </tr>
 
-                    </thead>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
-                        <tr>
+                            <tr th:each="franchise, stat : ${franchiseList.content}">
+                                <td th:text="${franchiseList.page * franchiseList.size + stat.index + 1}">1</td>
+                                <td class="subject">
+                                    <a
+                                            class="align-center"
+                                            th:text="${franchise.frName}"
+                                            th:href="@{/admin/franchise/view.do/{frId}(frId=${franchise.frId})}">
+                                        홍길동
+                                    </a>
+                                </td>
+                                <td class="nowrap" th:text="${franchise.frContact}">010-2147-8963</td>
+                                <td th:text="${franchise.frHopeRegion}">수원시</td>
+                                <td th:text="${franchise.frSearchPath}">네이버</td>
+                                <td th:text="${#temporals.format(franchise.regDt, 'yyyy-MM-dd')}">2026-07-24</td>
+                                <td>
+                                    <span th:switch="${franchise.frStatus}">
+                                        <span th:case="'05'" class="badge badge-orange">미확인</span>
+                                        <span th:case="'06'" class="badge badge-blue">상담중</span>
+                                        <span th:case="'07'" class="badge badge-gray">상담완료</span>
+                                    </span>
+                                </td>
+                            </tr>
 
-                            <td>1</td>
+                        </tbody>
 
-                            <td class="subject">
-                                <a href="#" class="align-center">
-                                    홍길동
-                                </a>
-                            </td>
+                    </table>
 
-                            <td class="nowrap">010-2147-8963</td>
+                </div>
 
-                            <td>수원시</td>
+                <!-- Bottom -->
 
-                            <td>네이버</td>
+                <div class="page-bottom">
 
-                            <td>2026-07-24</td>
+                    <!-- Pagination -->
 
-                            <td>
-                                <span class="badge badge-orange">
-                                    미확인
-                                </span>
-                            </td>
+                    <nav class="pagination" th:if="${franchiseList.totalPages > 0}">
 
-                        </tr>
+                        <a href="#"
+                           class="page-btn first"
+                           th:classappend="${franchiseList.first} ? ' disabled'"
+                           th:onclick="|doSearch(0); return false;|">
+                            &laquo;
+                        </a>
 
-                        <tr>
+                        <a href="#"
+                           class="page-btn prev"
+                           th:classappend="${franchiseList.first} ? ' disabled'"
+                           th:onclick="|doSearch(${franchiseList.page - 1}); return false;|">
+                            &lsaquo;
+                        </a>
 
-                            <td>2</td>
+                        <th:block th:with="startPage=${(franchiseList.page / 5) * 5},
+                        endPage=${T(java.lang.Math).min(startPage + 4, franchiseList.totalPages - 1)}">
 
-                            <td class="subject">
-                                <a href="#" class="align-center">
-                                    홍길동
-                                </a>
-                            </td>
-                            
-                            <td class="nowrap">010-2147-8963</td>
+                            <a href="#"
+                               class="page-number"
+                               th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+                               th:classappend="${pageNum == franchiseList.page} ? ' active'"
+                               th:text="${pageNum + 1}"
+                               th:onclick="|doSearch(${pageNum}); return false;|">
+                            </a>
 
-                            <td>수원시</td>
+                        </th:block>
 
-                            <td>네이버</td>
+                        <a href="#"
+                           class="page-btn next"
+                           th:classappend="${franchiseList.last} ? ' disabled'"
+                           th:onclick="|doSearch(${franchiseList.page + 1}); return false;|">
+                            &rsaquo;
+                        </a>
 
-                            <td>2026-07-24</td>
+                        <a href="#"
+                           class="page-btn last"
+                           th:classappend="${franchiseList.last} ? ' disabled'"
+                           th:onclick="|doSearch(${franchiseList.totalPages - 1}); return false;|">
+                            &raquo;
+                        </a>
 
-                            <td>
-                                <span class="badge badge-blue">
-                                    상담중
-                                </span>
-                            </td>
+                    </nav>
 
-                        </tr>
-
-                        <tr>
-
-                            <td>3</td>
-
-                            <td class="subject">
-                                <a href="#" class="align-center">
-                                    홍길동
-                                </a>
-                            </td>
-
-                            <td class="nowrap">010-2147-8963</td>
-
-                            <td>수원시</td>
-
-                            <td>네이버</td>
-
-                            <td>2026-07-24</td>
-
-                            <td>
-                                <span class="badge badge-gray">
-                                    상담완료
-                                </span>
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>4</td>
-
-                            <td class="subject">
-                                <a href="#" class="align-center">
-                                    홍길동
-                                </a>
-                            </td>
-                            
-                            <td class="nowrap">010-2147-8963</td>
-
-                            <td>수원시</td>
-
-                            <td>네이버</td>
-
-                            <td>2026-07-24</td>
-
-                            <td>
-                                <span class="badge badge-gray">
-                                    상담완료
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                    </tbody>
-
-                </table>
-
+                </div>
             </div>
-
-            <!-- Bottom -->
-
-            <div class="page-bottom">
-
-                <!-- Pagination -->
-
-                <nav class="pagination">
-
-                    <a href="#" class="page-btn first">&laquo;</a>
-
-                    <a href="#" class="page-btn prev">&lsaquo;</a>
-
-                    <a href="#" class="page-number active">1</a>
-
-                    <a href="#" class="page-number">2</a>
-
-                    <a href="#" class="page-number">3</a>
-
-                    <a href="#" class="page-number">4</a>
-
-                    <a href="#" class="page-number">5</a>
-
-                    <a href="#" class="page-btn next">&rsaquo;</a>
-
-                    <a href="#" class="page-btn last">&raquo;</a>
-
-                </nav>
-
-
-            </div>
-
         </section>
 
     </main>

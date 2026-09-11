@@ -529,3 +529,71 @@ document.querySelectorAll(".menu-swiper").forEach(swiper=>{
 
 });
 
+/* ==================================================
+   Back End Integration
+================================================== */
+$(document).ready(function () {
+
+    $("#btn-save").on("click", function(){
+        inquiryFranchise();
+    });
+});
+
+function inquiryFranchise() {
+
+    const frName = $("#frName");
+    const frContact = $("#frContact");
+    const frHopeRegion = $("#frHopeRegion");
+    const frSearchPath = $("#frSearchPath");
+
+    if (!frName.val()) {
+        alert("이름을 입력해주세요");
+        frName.focus();
+        return;
+    }
+
+    if (!frContact.val()) {
+        alert("연락처를 입력해주세요");
+        frContact.focus();
+        return;
+    }
+
+    if (!frHopeRegion.val()) {
+        alert("창업 희망 지역을 입력해주세요");
+        frHopeRegion.focus();
+        return;
+    }
+
+    if (!frSearchPath.val()) {
+        alert("검색경로를 입력해주세요");
+        frSearchPath.focus();
+        return;
+    }
+
+    const data = {
+        frName: frName.val(),
+        frContact: frContact.val(),
+        frHopeRegion: frHopeRegion.val(),
+        frSearchPath: frSearchPath.val()
+    };
+
+    $.ajax({
+        url: "/franchise/api/inquireFranchise.do",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            alert("가맹문의가 접수되었습니다.\n작성하신 연락처로 24시간 이내에 담당자가 연락드립니다");
+            location.reload();
+        },
+        error: function (xhr) {
+            const response = xhr.responseJSON;
+
+            if (response && response.message) {
+                alert(response.message);
+            } else {
+                alert("가맹문의 접수 중 오류가 발생했습니다.");
+            }
+        }
+    });
+}
