@@ -6,9 +6,7 @@ import com.project.gogiJangin.dto.PageResponse;
 import com.project.gogiJangin.dto.franchise.FranchiseRequestDto;
 import com.project.gogiJangin.dto.franchise.FranchiseResponseDto;
 import com.project.gogiJangin.entity.Franchise;
-import com.project.gogiJangin.entity.Region;
 import com.project.gogiJangin.repository.FranchiseRepository;
-import com.project.gogiJangin.repository.RegionRepository;
 import com.project.gogiJangin.service.FranchiseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,7 +24,6 @@ import java.util.List;
 public class FranchiseServiceImpl implements FranchiseService {
 
     private final FranchiseRepository franchiseRepository;
-    private final RegionRepository regionRepository;
 
     // 프랜차이즈 생성
     @Override
@@ -34,8 +31,10 @@ public class FranchiseServiceImpl implements FranchiseService {
         return franchiseRepository.save(Franchise.builder()
                         .frName(requestDto.getFrName())
                         .frContact(requestDto.getFrContact())
-                        .frRegion(regionRepository.findById(requestDto.getFrRgId()).orElseThrow(() ->
-                                new CustomException(ErrorCode.NOT_FOUND_REGION)))
+                        .frHopeRegion(requestDto.getFrHopeRegion())
+                        .frSearchPath(requestDto.getFrSearchPath())
+                        .frMemo(requestDto.getFrMemo())
+                        .frStatus("05") // 05 미확인, 06 상담중, 07 상담완료
                 .build()).getFrId();
     }
     
@@ -52,7 +51,7 @@ public class FranchiseServiceImpl implements FranchiseService {
     // 프랜차이즈 목록 조회
     @Override
     @Transactional(readOnly = true)
-    public PageResponse<FranchiseResponseDto> getFranchiseList(Pageable pageable) {
+    public PageResponse<FranchiseResponseDto> getFranchiseList(FranchiseRequestDto requestDto, Pageable pageable) {
 
         Pageable sortedPageable = PageRequest.of(
                 pageable.getPageNumber(),
@@ -60,11 +59,19 @@ public class FranchiseServiceImpl implements FranchiseService {
                 Sort.by(Sort.Direction.DESC, "regDt")
         );
 
-        Page<Franchise> franchisePage = franchiseRepository.findAll(sortedPageable);
+        Page<Franchise> franchisePage;
+
+        if (requestDto != null) {
+            franchisePage = franchiseRepository.search(requestDto, sortedPageable);
+        } else {
+            franchisePage = franchiseRepository.findAllByDelYn("N", sortedPageable);
+        }
 
         List<FranchiseResponseDto> content = franchisePage.getContent()
                 .stream()
-                .map(franchise -> FranchiseResponseDto.builder().fr(franchise).build()) // or mapper 사용
+                .map(franchise -> FranchiseResponseDto.builder()
+                        .fr(franchise)
+                        .build()) // or mapper 사용
                 .toList();
 
         return PageResponse.<FranchiseResponseDto>builder()
@@ -85,11 +92,7 @@ public class FranchiseServiceImpl implements FranchiseService {
         if (requestDto.getFrId() != null) {
             Franchise franchise = franchiseRepository.findById(requestDto.getFrId()).orElseThrow(() ->
                     new CustomException(ErrorCode.NOT_FOUND_FRANCHISE));
-
-            Region region = regionRepository.findById(requestDto.getFrRgId()).orElseThrow(() ->
-                    new CustomException(ErrorCode.NOT_FOUND_REGION));
-
-            franchise.update(requestDto, region);
+            franchise.updateFrMemoAndStatus(requestDto);
 
             return franchise.getFrId();
         } else {
@@ -100,6 +103,9 @@ public class FranchiseServiceImpl implements FranchiseService {
     // 프랜차이즈 삭제
     @Override
     public void deleteFranchise(Long frId) {
-        franchiseRepository.deleteById(frId);
+        Franchise franchise = franchiseRepository.findById(frId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_FRANCHISE));
+
+        franchise.softDelete();
     }
 }

@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <title></title>
 
     <link rel="stylesheet" href="/admin/css/style.css">
@@ -14,51 +14,90 @@
 
 <body>
 
-    <!-- =========================================
-        Header
-    ========================================== -->
+    <script>
+        $(document).ready(function () {
 
-    <header class="header">
+            $("#btn-delete").on("click", function() {
+                doDelete();
+            });
 
-        <div class="inner">
+            $("#btn-modify").on("click", function() {
+                doModify();
+            });
 
-            <h1 class="logo">
-                <a href="#">
-                    <img src="/admin/images/logo.png" alt="">
-                </a>
-            </h1>
+            function doDelete() {
 
-            <nav class="gnb">
+                if (confirm("가맹 문의를 삭제하시겠습니까?")) {
 
-                <ul>
+                    $.ajax({
+                        url: '/admin/franchise/api/deleteFranchise.do/' + $("#frId").val(),
+                        type: 'DELETE',
+                        success: function () {
+                            alert("팝업이 삭제되었습니다.");
+                            location.href = "/admin/franchise/list.do";
+                        },
+                        error: function (xhr) {
 
-                    <li>
-                        <a href="popup_list.html">팝업관리</a>
-                    </li>
+                            const response = xhr.responseJSON;
 
-                    <li>
-                        <a href="review_list.html">리뷰관리</a>
-                    </li>
+                            if (response && response.message) {
+                                alert(response.message);
+                            } else {
+                                alert('서버 오류가 발생했습니다.');
+                            }
+                        }
+                    });
+                }
+            }
 
-                    <li class="active">
-                        <a href="inquiry_list.html">가맹문의관리</a>
-                    </li>
+            function doModify() {
 
-                </ul>
+                const frStatus = $("#frStatus").val();
 
-            </nav>
+                if (frStatus === '07') {
+                    if (!confirm("상담완료 시 메모 및 상태변경이 불가합니다\n그래도 진행하시겠습니까?")) {
+                        return;
+                    }
+                } else {
+                    if (!confirm("가맹문의를 수정하시겠습니까?")) {
+                        return;
+                    }
+                }
 
-            <div class="header-util">
+                const frId = $("#frId").val();
+                const frMemo = $("#frMemo").val();
 
-                <form th:action="@{/admin/logout.do}" method="post">
-                    <button type="submit" class="btn-logout">로그아웃</button>
-                </form>
+                const data = {
+                    frId: frId,
+                    frMemo: frMemo,
+                    frStatus: frStatus
+                };
 
-            </div>
+                $.ajax({
+                    url: '/admin/franchise/api/editFranchise.do',
+                    type: 'PUT',
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function () {
+                        alert("가맹 문의가 수정되었습니다.");
+                        location.reload();
+                    },
+                    error: function (xhr) {
 
-        </div>
+                        const response = xhr.responseJSON;
 
-    </header>
+                        if (response && response.message) {
+                            alert(response.message);
+                        } else {
+                            alert('서버 오류가 발생했습니다.');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+    <div th:replace="~{admin/header :: header}"></div>
 
     <!-- =========================================
         Main
@@ -87,6 +126,8 @@
 
             <form>
 
+                <input type="hidden" id="frId" th:value="${franchiseDetail.frId}" />
+
                 <div class="form-table">
 
                     <table>
@@ -102,34 +143,42 @@
 
                             <tr>
                                 <th>이름</th>
-                                <td>홍길동</td>
+                                <td th:text="${franchiseDetail.frName}">홍길동</td>
                             </tr>
 
                             <tr>
                                 <th>연락처</th>
-                                <td>0101-1234-5678</td>
+                                <td th:text="${franchiseDetail.frContact}">0101-1234-5678</td>
                             </tr>                            
 
                             <tr>
                                 <th>창업 희망지역</th>
-                                <td>수원</td>
+                                <td th:text="${franchiseDetail.frHopeRegion}">수원</td>
                             </tr>
                             
                             <tr>
                                 <th>검색경로</th>
-                                <td>네이버</td>
+                                <td th:text="${franchiseDetail.frSearchPath}">네이버</td>
                             </tr>
 
                             <tr>
                                 <th>접수일</th>
-                                <td>2026-07-24</td>
+                                <td th:text="${#temporals.format(franchiseDetail.regDt, 'yyyy년 M월 d일')}">2026-07-24</td>
                             </tr>
 
                             <tr>
                                 <th>상담메모</th>
-                                <td>
-                                  전화 상담 완료, 8월 초 방문 예정<br>
-                                  담당자 : 김갑수
+
+                                <td th:if="${franchiseDetail.frStatus == '07'}"
+                                    th:text="${franchiseDetail.frMemo}"
+                                    style="white-space: pre-line;">
+                                </td>
+
+                                <td th:unless="${franchiseDetail.frStatus == '07'}">
+                                    <textarea id="frMemo"
+                                              class="form-input"
+                                              style="padding: 5px; resize: none; height: 150px;"
+                                              th:text="${franchiseDetail.frMemo}"></textarea>
                                 </td>
                             </tr>
 
@@ -142,9 +191,27 @@
                                 </th>
 
                                 <td>
-                                    	
-                                    <span class="badge badge-blue">
-                                        상담중
+
+                                    <select th:if="${franchiseDetail.frStatus != '07'}" id="frStatus" class="form-select">
+                                        <option value="05"
+                                                th:selected="${franchiseDetail.frStatus == '05'}">
+                                            미확인
+                                        </option>
+
+                                        <option value="06"
+                                                th:selected="${franchiseDetail.frStatus == '06'}">
+                                            상담중
+                                        </option>
+
+                                        <option value="07"
+                                                th:selected="${franchiseDetail.frStatus == '07'}">
+                                            상담완료
+                                        </option>
+                                    </select>
+                                    <span
+                                            th:if="${franchiseDetail.frStatus == '07'}"
+                                            class="badge badge-gray">
+                                        상담완료
                                     </span>
 
                                 </td>
@@ -163,7 +230,8 @@
 
                     <button
                         type="button"
-                        class="btn btn-gray">
+                        class="btn btn-gray"
+                        onclick="location.href='/admin/franchise/list.do'">
 
                         목록
 
@@ -171,7 +239,8 @@
 
                     <button
                         type="button"
-                        class="btn btn-gray">
+                        class="btn btn-gray"
+                        id="btn-delete">
 
                         삭제
 
@@ -179,7 +248,8 @@
 
                     <button
                         type="submit"
-                        class="btn btn-primary">
+                        class="btn btn-primary"
+                        id="btn-modify">
 
                         수정
 

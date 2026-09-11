@@ -15,19 +15,22 @@ public class FranchiseResponseDto {
     private Long frId;
     private String frName;
     private String frContact;
-    private Long frRgId;
-    private String frRgName;
-    private LocalDateTime frRegDt;
-    private LocalDateTime frModDt;
+    private String frHopeRegion;
+    private String frSearchPath;
+    private LocalDateTime regDt;
+    private String frMemo;
+    private String frStatus;
+
 
     @Builder
     public FranchiseResponseDto(Franchise fr) {
         this.frId = fr.getFrId();
         this.frName = fr.getFrName();
         this.frContact = fr.getFrContact();
-        this.frRgId = fr.getFrRegion().getRgId();
-        this.frRgName = fr.getFrRegion().getRgName();
-        this.frRegDt = fr.getRegDt();
-        this.frModDt = fr.getModDt();
+        this.frHopeRegion = fr.getFrHopeRegion();
+        this.frSearchPath = fr.getFrSearchPath();
+        this.regDt = fr.getRegDt();
+        this.frMemo = fr.getFrMemo();
+        this.frStatus = fr.getFrStatus();
     }
 }

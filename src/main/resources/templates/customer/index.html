@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/customer/css/style.css">
 
     <!-- Swiper -->
@@ -909,22 +909,22 @@
 
                         <li>
                             <img src="/customer/images/cost/icon_name.png" alt="">
-                            <input type="text" placeholder="이름">
+                            <input type="text" id="frName" maxlength="10" placeholder="이름">
                         </li>
 
                         <li>
                             <img src="/customer/images/cost/icon_phone.png" alt="">
-                            <input type="text" placeholder="연락처">
+                            <input type="text" id="frContact" maxlength="20" placeholder="연락처">
                         </li>
 
                         <li>
                             <img src="/customer/images/cost/icon_map.png" alt="">
-                            <input type="text" placeholder="창업 희망 지역">
+                            <input type="text" id="frHopeRegion" maxlength="30" placeholder="창업 희망 지역 (ex. 서울 영등포구)">
                         </li>
 
                         <li>
                             <img src="/customer/images/cost/icon_search.png" alt="">
-                            <select>
+                            <select id="frSearchPath">
                                 <option value="">검색 경로 선택</option>
                                 <option value="네이버">네이버</option>
                                 <option value="유튜브">유튜브</option>
@@ -938,7 +938,7 @@
 
                     </ul>
 
-                    <button class="btn-cost">가맹문의</button>
+                    <button class="btn-cost" id="btn-save">가맹문의</button>
 
                     <p>- 담당자가 영업일 기준 24시간 이내에 연락드립니다. -</p>
 
