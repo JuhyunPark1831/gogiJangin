@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title></title>
+
+    <link rel="stylesheet" href="/admin/css/style.css">
+
+</head>
+
+<body>
+    <script>
+        $(document).ready(function () {
+
+            $("#btn-delete").on("click", function() {
+                doDelete();
+            });
+
+            function doDelete() {
+
+                if (confirm("리뷰를 삭제하시겠습니까?")) {
+
+                    $.ajax({
+                        url: '/admin/review/api/deleteReview.do/' + $("#rvId").val(),
+                        type: 'DELETE',
+                        success: function () {
+                            alert("팝업이 삭제되었습니다.");
+                            location.href = "/admin/review/list.do";
+                        },
+                        error: function (xhr) {
+
+                            const response = xhr.responseJSON;
+
+                            if (response && response.message) {
+                                alert(response.message);
+                            } else {
+                                alert('서버 오류가 발생했습니다.');
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+
+    <div th:replace="~{admin/header :: header}"></div>
+
+    <!-- =========================================
+        Main
+    ========================================== -->
+
+    <main class="container">
+
+        <!-- Page Title -->
+
+        <section class="page">
+
+            <div class="page-title">
+
+                <div class="title-left">
+
+                    <img src="/admin/images/icon_review.png" alt="" class="title-icon">
+
+                    <h2>리뷰관리</h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- Form -->
+
+            <form>
+
+                <input type="hidden" id="rvId" th:value="${reviewDetail.rvId}" />
+
+                <div class="form-table">
+
+                    <table>
+
+                        <colgroup>
+
+                            <col style="width:190px;">
+                            <col>
+
+                        </colgroup>
+
+                        <tbody>
+
+                            <tr>
+                                <th>제목</th>
+                                <td th:text="${reviewDetail.rvTitle}">산들바람 후기</td>
+                            </tr>
+
+                            <tr>
+                                <th>플랫폼</th>
+                                <td th:text="${reviewDetail.rvPlatform}">네이버</td>
+                            </tr>                            
+
+                            <tr>
+                                <th>이미지</th>
+                                <td>
+                                    <img
+                                            th:if="${reviewDetail.rvAfId != null}"
+                                            th:src="@{/file/api/getImageSource.do/{afId}(afId=${reviewDetail.getRvAfId()})}"
+                                            alt="리뷰 이미지">
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th>노출여부</th>
+                                <td th:if="${reviewDetail.rvStatus == '02'}">노출중</td>
+                                <td th:if="${reviewDetail.rvStatus == '04'}">숨김</td>
+                            </tr>
+
+                            <tr>
+                                <th>순서</th>
+                                <td th:text="${reviewDetail.rvOrder}">1</td>
+                            </tr>
+
+                            <tr>
+                                <th>등록일</th>
+                                <td th:text="${#temporals.format(reviewDetail.regDt, 'yyyy년 M월 d일')}">2026-07-26</td>
+                            </tr>                          
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Bottom -->
+
+                <div class="form-btn">
+
+                    <button
+                        type="button"
+                        class="btn btn-gray"
+                        onclick="location.href='/admin/review/list.do'">
+
+                        목록
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-gray"
+                        id="btn-delete">
+
+                        삭제
+
+                    </button>
+
+                    <!--
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        수정
+
+                    </button>
+                    -->
+                    <!-- todo: 추후수정 -->
+
+                </div>
+
+            </form>
+            
+
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>                        

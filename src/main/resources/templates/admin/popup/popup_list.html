@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title></title>
+
+    <link rel="stylesheet" href="/admin/css/style.css">
+
+</head>
+
+<body>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#btn-search").on("click", function() {
+                doSearch();
+            });
+
+            $("#btn-clear").on("click", function() {
+                $("#startDate").val("");
+                $("#endDate").val("");
+                $("#title").val("");
+                $("#status").val("");
+            });
+        });
+
+        function doSearch(page = 0) {
+
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
+
+            const requestDto = {
+                puTitle: $('#title').val() || null,
+                puStartDt: startDate ? startDate + 'T00:00:00' : null,
+                puEndDt: endDate ? endDate + 'T23:59:59' : null,
+                status: $('#status').val() || null
+            };
+
+            $.ajax({
+                url: '/admin/popup/api/list.do?page=' + page,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestDto),
+                success: function (html) {
+                    $('#popup-list').replaceWith(html);
+                },
+                error: function (xhr) {
+
+                    const response = xhr.responseJSON;
+
+                    if (response && response.message) {
+                        alert(response.message);
+                    } else {
+                        alert('서버 오류가 발생했습니다.');
+                    }
+                }
+            });
+        }
+    </script>
+
+    <div th:replace="~{admin/header :: header}"></div>
+
+    <!-- =========================================
+        Main
+    ========================================== -->
+
+    <main class="container">
+
+        <!-- Page Title -->
+
+        <section class="page">
+
+            <div class="page-title">
+
+                <div class="title-left">
+
+                    <img src="/admin/images/icon_popup.png" alt="" class="title-icon">
+
+                    <h2>팝업관리</h2>
+
+                </div>
+
+            </div>
+
+            <!-- 검색 영역 -->
+            <div class="search-box">
+
+                <div class="search-item">
+                    <label for="startDate">등록일자</label>
+
+                    <div class="date-wrap">
+                        <input type="date" id="startDate" name="startDate">
+                        <span>~</span>
+                        <input type="date" id="endDate" name="endDate">
+                    </div>
+                </div>
+
+                <div class="search-item">
+                    <label for="title">제목</label>
+                    <input type="text"
+                           id="title"
+                           name="searchName"
+                           placeholder="제목을 입력하세요">
+                </div>
+
+                <div class="search-item">
+                    <label for="status">상태</label>
+                    <select id="status" name="searchStatus">
+                        <option value="">전체</option>
+                        <option value="02">노출중</option>
+                        <option value="04">숨김</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn-search" id="btn-search">
+                    검색
+                </button>
+
+                <button type="button" class="btn-search" id="btn-clear">
+                    초기화
+                </button>
+
+            </div>
+
+            <!-- Table -->
+            <div id="popup-list" th:fragment="popup-list">
+                <div class="table-wrap">
+
+                    <table class="table-list">
+
+                        <colgroup>
+
+                            <col style="width:80px;">
+                            <col>
+                            <col style="width:130px;">
+                            <col style="width:130px;">
+                            <col style="width:120px;">
+
+                        </colgroup>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>시작일</th>
+                                <th>종료일</th>
+                                <th>상태</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:each="popup, stat : ${popupList.content}">
+                                <td th:text="${popupList.page * popupList.size + stat.index + 1}">1</td>
+                                <td class="subject">
+                                    <a th:href="@{/admin/popup/view.do/{puId}(puId=${popup.puId})}"
+                                       th:text="${popup.puTitle}">
+                                        팝업 제목
+                                    </a>
+                                </td>
+                                <td th:text="${#temporals.format(popup.puStartDt, 'yyyy-MM-dd')}">
+                                    2026-12-12
+                                </td>
+                                <td th:text="${#temporals.format(popup.puEndDt, 'yyyy-MM-dd')}">
+                                    2026-12-12
+                                </td>
+                                <td>
+                                    <span th:if="${popup.puStartDt.isAfter(now)}" class="badge badge-blue">예약</span>
+                                    <span th:if="${!popup.puStartDt.isAfter(now) and !popup.puEndDt.isBefore(now)}" class="badge badge-orange">노출중</span>
+                                    <span th:if="${popup.puEndDt.isBefore(now)}" class="badge badge-gray">종료</span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Bottom -->
+
+                <div class="page-bottom">
+
+                    <!-- Pagination -->
+
+                    <nav class="pagination" th:if="${popupList.totalPages > 0}">
+
+                        <a href="#"
+                           class="page-btn first"
+                           th:classappend="${popupList.first} ? ' disabled'"
+                           th:onclick="|doSearch(0); return false;|">
+                            &laquo;
+                        </a>
+
+                        <a href="#"
+                           class="page-btn prev"
+                           th:classappend="${popupList.first} ? ' disabled'"
+                           th:onclick="|doSearch(${popupList.page - 1}); return false;|">
+                            &lsaquo;
+                        </a>
+
+                        <th:block th:with="startPage=${(popupList.page / 5) * 5},
+                        endPage=${T(java.lang.Math).min(startPage + 4, popupList.totalPages - 1)}">
+
+                            <a href="#"
+                               class="page-number"
+                               th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+                               th:classappend="${pageNum == popupList.page} ? ' active'"
+                               th:text="${pageNum + 1}"
+                               th:onclick="|doSearch(${pageNum}); return false;|">
+                            </a>
+
+                        </th:block>
+
+                        <a href="#"
+                           class="page-btn next"
+                           th:classappend="${popupList.last} ? ' disabled'"
+                           th:onclick="|doSearch(${popupList.page + 1}); return false;|">
+                            &rsaquo;
+                        </a>
+
+                        <a href="#"
+                           class="page-btn last"
+                           th:classappend="${popupList.last} ? ' disabled'"
+                           th:onclick="|doSearch(${popupList.totalPages - 1}); return false;|">
+                            &raquo;
+                        </a>
+
+                    </nav>
+
+                    <div class="btn-area">
+
+                        <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="location.href='/admin/popup/write.do'">
+
+                            새 팝업 등록
+
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+
+</html>                        

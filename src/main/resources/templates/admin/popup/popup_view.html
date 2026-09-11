@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title></title>
+
+    <link rel="stylesheet" href="/admin/css/style.css">
+
+</head>
+
+<body>
+    <script>
+        $(document).ready(function () {
+
+            $("#btn-delete").on("click", function() {
+                doDelete();
+            });
+
+            function doDelete() {
+
+                if (confirm("팝업을 삭제하시겠습니까?")) {
+
+                    $.ajax({
+                        url: '/admin/popup/api/deletePopup.do/' + $("#puId").val(),
+                        type: 'DELETE',
+                        success: function () {
+                            alert("팝업이 삭제되었습니다.");
+                            location.href = "/admin/popup/list.do";
+                        },
+                        error: function (xhr) {
+
+                            const response = xhr.responseJSON;
+
+                            if (response && response.message) {
+                                alert(response.message);
+                            } else {
+                                alert('서버 오류가 발생했습니다.');
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+
+    <div th:replace="~{admin/header :: header}"></div>
+
+    <!-- =========================================
+        Main
+    ========================================== -->
+
+    <main class="container">
+
+        <!-- Page Title -->
+
+        <section class="page">
+
+            <div class="page-title">
+
+                <div class="title-left">
+
+                    <img src="/admin/images/icon_popup.png" alt="" class="title-icon">
+
+                    <h2>팝업관리</h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- Form -->
+
+            <form>
+
+                <input type="hidden" id="puId" th:value="${popupDetail.puId}" />
+
+                <div class="form-table">
+
+                    <table>
+
+                        <colgroup>
+
+                            <col style="width:190px;">
+                            <col>
+
+                        </colgroup>
+
+                        <tbody>
+
+                            <!-- 제목 -->
+
+                            <tr>
+
+                                <th>
+                                    제목
+                                </th>
+
+                                <td th:text="${popupDetail.puTitle}">
+                                    팝업 제목
+                                </td>
+
+                            </tr>
+
+                            <!-- 상태 -->
+
+                            <tr>
+
+                                <th>
+                                    상태
+                                </th>
+
+                                <td>
+                                    <span
+                                        th:class="${popupDetail.status == '01' ? 'badge badge-blue' :
+                                                  (popupDetail.status == '02' ? 'badge badge-orange' :
+                                                  'badge badge-gray')}"
+                                        th:text="${popupDetail.status == '01' ? '예약' :
+                                                  (popupDetail.status == '02' ? '노출중' :
+                                                  '종료')}">
+                                        노출중
+                                    </span>
+                                </td>
+
+                            </tr>
+
+                            <!-- 이미지 -->
+
+                            <tr>
+
+                                <th>
+                                    파일 이미지 업로드
+                                </th>
+
+                                <td>
+
+                                    <img
+                                            th:if="${popupDetail.puAfId != null}"
+                                            th:src="@{/file/api/getImageSource.do/{afId}(afId=${popupDetail.puAfId})}"
+                                            alt="팝업 이미지">
+
+                                </td>
+
+                            </tr>
+
+                            <!-- 노출기간 -->
+
+                            <tr>
+
+                                <th>
+                                    노출 기간 설정
+                                </th>
+
+                                <td>
+
+                                    <span th:text="${#temporals.format(popupDetail.puStartDt, 'yyyy년 M월 d일')}">
+                                        2026년 7월 20일
+                                    </span>
+                                    ~
+                                    <span th:text="${#temporals.format(popupDetail.puEndDt, 'yyyy년 M월 d일')}">
+                                        2026년 7월 27일
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            <!-- 등록일 -->
+
+                            <tr>
+
+                                <th>
+                                    등록일
+                                </th>
+
+                                <td th:text="${#temporals.format(popupDetail.regDt, 'yyyy년 M월 d일')}">
+                                    2026년 7월 20일
+                                </td>
+
+                            </tr>
+
+                            <!-- 수정일 -->
+
+                            <!--
+                            <tr>
+
+                                <th>
+                                    수정일
+                                </th>
+
+                                <td>
+
+                                    2026년 7월 20일
+
+                                </td>
+
+                            </tr>
+                            -->
+                        <!-- todo: 추후작업 -->
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Bottom -->
+
+                <div class="form-btn">
+
+                    <button
+                        type="button"
+                        class="btn btn-gray"
+                        onclick="location.href='/admin/popup/list.do'">
+
+                        목록
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-gray"
+                        id="btn-delete">
+
+                        삭제
+
+                    </button>
+
+                    <!--
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        수정
+
+                    </button>
+                    -->
+                    <!-- todo: 추후수정 -->
+
+                </div>
+
+            </form>
+            
+
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>                        

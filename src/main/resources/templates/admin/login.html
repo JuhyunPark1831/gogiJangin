@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<title></title>
+
+<link rel="stylesheet" href="/admin/css/style.css">
+
+</head>
+<body>
+
+    <script>
+        $(document).ready(function () {
+            const params = new URLSearchParams(window.location.search);
+
+            if (params.get('error') === 'true') {
+                alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+            }
+
+            const savedId = localStorage.getItem('adminUserId');
+
+            if (savedId) {
+                $("input[name='username']").val(savedId);
+                $('#saveId').prop('checked', true);
+            }
+
+            $('#loginForm').on('submit', function(e) {
+
+                const id = $("input[name='username']").val().trim();
+                const password = $("input[name='password']").val().trim();
+
+                if (id === '') {
+                    e.preventDefault();
+                    alert('아이디를 입력해주세요.');
+                    $("input[name='username']").focus();
+                    return false;
+                }
+
+                if (password === '') {
+                    e.preventDefault();
+                    alert('비밀번호를 입력해주세요.');
+                    $("input[name='password']").focus();
+                    return false;
+                }
+
+                if ($('#saveId').is(':checked')) {
+                    localStorage.setItem('adminUserId', id);
+                } else {
+                    localStorage.removeItem('adminUserId');
+                }
+
+            });
+        });
+    </script>
+
+<div class="login-wrap">
+
+    <div class="login-box">
+
+        <h1 class="login-logo">
+            <img src="/admin/images/logo.png" alt="더장인">
+        </h1>
+
+        <form action="/admin/login.do" method="post" id="loginForm">
+
+            <div class="input-box">
+
+                <span class="input-icon">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+
+                </span>
+
+                <input type="text" name="username" placeholder="아이디">
+
+            </div>
+
+
+            <div class="input-box">
+
+                <span class="input-icon">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="5" y="11" width="14" height="10" rx="2"/>
+                        <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+                    </svg>
+
+                </span>
+
+                <input type="password" name="password" placeholder="비밀번호">
+
+            </div>
+
+
+            <label class="save-id">
+
+                <input type="checkbox" id="saveId">
+
+                <span>아이디 저장</span>
+
+            </label>
+
+
+            <button type="submit" class="btn-login" id="btn-login">
+
+                로그인
+
+            </button>
+
+        </form>
+
+<!--
+        <div class="login-link">
+
+            <a href="#">아이디 찾기</a>
+
+            <a href="#">비밀번호 찾기</a>
+
+            <a href="#">회원가입</a>
+
+        </div>
+-->
+
+    </div>
+
+</div>
+
+</body>
+</html>

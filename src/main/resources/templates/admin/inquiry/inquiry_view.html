@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title></title>
+
+    <link rel="stylesheet" href="/admin/css/style.css">
+
+</head>
+
+<body>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#btn-delete").on("click", function() {
+                doDelete();
+            });
+
+            $("#btn-modify").on("click", function() {
+                doModify();
+            });
+
+            function doDelete() {
+
+                if (confirm("가맹 문의를 삭제하시겠습니까?")) {
+
+                    $.ajax({
+                        url: '/admin/franchise/api/deleteFranchise.do/' + $("#frId").val(),
+                        type: 'DELETE',
+                        success: function () {
+                            alert("팝업이 삭제되었습니다.");
+                            location.href = "/admin/franchise/list.do";
+                        },
+                        error: function (xhr) {
+
+                            const response = xhr.responseJSON;
+
+                            if (response && response.message) {
+                                alert(response.message);
+                            } else {
+                                alert('서버 오류가 발생했습니다.');
+                            }
+                        }
+                    });
+                }
+            }
+
+            function doModify() {
+
+                const frStatus = $("#frStatus").val();
+
+                if (frStatus === '07') {
+                    if (!confirm("상담완료 시 메모 및 상태변경이 불가합니다\n그래도 진행하시겠습니까?")) {
+                        return;
+                    }
+                } else {
+                    if (!confirm("가맹문의를 수정하시겠습니까?")) {
+                        return;
+                    }
+                }
+
+                const frId = $("#frId").val();
+                const frMemo = $("#frMemo").val();
+
+                const data = {
+                    frId: frId,
+                    frMemo: frMemo,
+                    frStatus: frStatus
+                };
+
+                $.ajax({
+                    url: '/admin/franchise/api/editFranchise.do',
+                    type: 'PUT',
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function () {
+                        alert("가맹 문의가 수정되었습니다.");
+                        location.reload();
+                    },
+                    error: function (xhr) {
+
+                        const response = xhr.responseJSON;
+
+                        if (response && response.message) {
+                            alert(response.message);
+                        } else {
+                            alert('서버 오류가 발생했습니다.');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+    <div th:replace="~{admin/header :: header}"></div>
+
+    <!-- =========================================
+        Main
+    ========================================== -->
+
+    <main class="container">
+
+        <!-- Page Title -->
+
+        <section class="page">
+
+            <div class="page-title">
+
+                <div class="title-left">
+
+                    <img src="/admin/images/icon_inquiry.png" alt="" class="title-icon">
+
+                    <h2>가맹문의관리</h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- Form -->
+
+            <form>
+
+                <input type="hidden" id="frId" th:value="${franchiseDetail.frId}" />
+
+                <div class="form-table">
+
+                    <table>
+
+                        <colgroup>
+
+                            <col style="width:190px;">
+                            <col>
+
+                        </colgroup>
+
+                        <tbody>
+
+                            <tr>
+                                <th>이름</th>
+                                <td th:text="${franchiseDetail.frName}">홍길동</td>
+                            </tr>
+
+                            <tr>
+                                <th>연락처</th>
+                                <td th:text="${franchiseDetail.frContact}">0101-1234-5678</td>
+                            </tr>                            
+
+                            <tr>
+                                <th>창업 희망지역</th>
+                                <td th:text="${franchiseDetail.frHopeRegion}">수원</td>
+                            </tr>
+                            
+                            <tr>
+                                <th>검색경로</th>
+                                <td th:text="${franchiseDetail.frSearchPath}">네이버</td>
+                            </tr>
+
+                            <tr>
+                                <th>접수일</th>
+                                <td th:text="${#temporals.format(franchiseDetail.regDt, 'yyyy년 M월 d일')}">2026-07-24</td>
+                            </tr>
+
+                            <tr>
+                                <th>상담메모</th>
+
+                                <td th:if="${franchiseDetail.frStatus == '07'}"
+                                    th:text="${franchiseDetail.frMemo}"
+                                    style="white-space: pre-line;">
+                                </td>
+
+                                <td th:unless="${franchiseDetail.frStatus == '07'}">
+                                    <textarea id="frMemo"
+                                              class="form-input"
+                                              style="padding: 5px; resize: none; height: 150px;"
+                                              th:text="${franchiseDetail.frMemo}"></textarea>
+                                </td>
+                            </tr>
+
+                            <!-- 상태 -->
+
+                            <tr>
+
+                                <th>
+                                    상태
+                                </th>
+
+                                <td>
+
+                                    <select th:if="${franchiseDetail.frStatus != '07'}" id="frStatus" class="form-select">
+                                        <option value="05"
+                                                th:selected="${franchiseDetail.frStatus == '05'}">
+                                            미확인
+                                        </option>
+
+                                        <option value="06"
+                                                th:selected="${franchiseDetail.frStatus == '06'}">
+                                            상담중
+                                        </option>
+
+                                        <option value="07"
+                                                th:selected="${franchiseDetail.frStatus == '07'}">
+                                            상담완료
+                                        </option>
+                                    </select>
+                                    <span
+                                            th:if="${franchiseDetail.frStatus == '07'}"
+                                            class="badge badge-gray">
+                                        상담완료
+                                    </span>
+
+                                </td>
+
+                            </tr>                           
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Bottom -->
+
+                <div class="form-btn">
+
+                    <button
+                        type="button"
+                        class="btn btn-gray"
+                        onclick="location.href='/admin/franchise/list.do'">
+
+                        목록
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-gray"
+                        id="btn-delete">
+
+                        삭제
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        id="btn-modify">
+
+                        수정
+
+                    </button>
+
+                </div>
+
+            </form>
+            
+
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>                        

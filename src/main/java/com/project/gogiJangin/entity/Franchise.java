@@ -24,22 +24,35 @@ public class Franchise extends BaseEntity {
     @Column(name = "FR_CONTACT")
     private String frContact;
 
-    @ManyToOne
-    @JoinColumn(name = "FR_RG_ID")
-    private Region frRegion;
+    @Column(name = "FR_HOPE_REGION")
+    private String frHopeRegion;
+
+    @Column(name = "FR_SEARCH_PATH")
+    private String frSearchPath;
+
+    @Column(name = "FR_MEMO")
+    private String frMemo;
+
+    @Column(name = "FR_STATUS")
+    private String frStatus;
 
     @Builder
     public Franchise(String frName,
                      String frContact,
-                     Region frRegion) {
+                     String frHopeRegion,
+                     String frSearchPath,
+                     String frMemo,
+                     String frStatus) {
         this.frName = frName;
         this.frContact = frContact;
-        this.frRegion = frRegion;
+        this.frHopeRegion = frHopeRegion;
+        this.frSearchPath = frSearchPath;
+        this.frMemo = frMemo;
+        this.frStatus = frStatus;
     }
 
-    public void update(FranchiseRequestDto requestDto, Region region) {
-        this.frName = requestDto.getFrName();
-        this.frContact = requestDto.getFrContact();
-        this.frRegion = region;
+    public void updateFrMemoAndStatus(FranchiseRequestDto requestDto) {
+        this.frMemo = requestDto.getFrMemo();
+        this.frStatus = requestDto.getFrStatus();
     }
 }

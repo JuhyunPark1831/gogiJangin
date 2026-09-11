@@ -31,4 +31,8 @@ public class CustomResponseEntity<T> {
     public static CustomResponseEntity<?> error(String errorMessage, ErrorCode errorCode) {
         return new CustomResponseEntity<>(errorCode.getHttpStatus(), errorCode.getCode(), errorMessage, null);
     }
+
+    public static CustomResponseEntity<?> error(ErrorCode errorCode) {
+        return new CustomResponseEntity<>(errorCode.getHttpStatus(), errorCode.getCode(), errorCode.getMessage(), null);
+    }
 }

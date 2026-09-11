@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title></title>
+
+    <link rel="stylesheet" href="/admin/css/style.css">
+
+</head>
+
+<body>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#btn-save").on("click", function() {
+                doSave();
+            });
+
+            $("#btn-cancel").on("click", function() {
+                location.href = "/admin/popup/list.do";
+            });
+
+            $("#popupImage").on("change", function() {
+
+                const file = this.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#imagePreview")
+                        .attr("src", e.target.result)
+                        .show();
+
+                    $(".upload-icon").hide();
+                    $(".upload-area strong").hide();
+                    $(".upload-area p").hide();
+                    $(".btn-upload").hide();
+                }
+
+                reader.readAsDataURL(file);
+            });
+        });
+
+        function doSave() {
+
+            const puTitle = $('#puTitle');
+            const puImage = $('#popupImage');
+            const puStartDt = $('#puStartDt');
+            const puEndDt = $('#puEndDt');
+
+            if (!puTitle.val()) {
+                alert("제목을 입력해주세요");
+                puTitle.focus();
+                return;
+            }
+
+            if (puImage[0].files.length === 0) {
+                alert("이미지를 등록해주세요");
+                puImage.focus();
+                return;
+            }
+
+            if (!puStartDt.val()) {
+                alert("노출 시작 날짜를 입력해주세요");
+                puStartDt.focus();
+                return;
+            }
+
+            if (!puEndDt.val()) {
+                alert("노출 종료 날짜를 입력해주세요");
+                puEndDt.focus();
+                return;
+            }
+
+            const formData = new FormData();
+            const imageFile = puImage[0].files[0];
+
+            formData.append('puTitle', puTitle.val());
+            formData.append('puImage', imageFile);
+            formData.append('puStartDt', puStartDt.val() + 'T00:00:01');
+            formData.append('puEndDt', puEndDt.val() + 'T00:00:01');
+
+            $.ajax({
+                url: '/admin/popup/api/postPopup.do',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function () {
+                    alert("팝업이 등록되었습니다.");
+                    location.href = "/admin/popup/list.do";
+                },
+
+                error: function (xhr) {
+
+                    const response = xhr.responseJSON;
+
+                    if (response && response.message) {
+                        alert(response.message);
+                    } else {
+                        alert('서버 오류가 발생했습니다.');
+                    }
+                }
+            });
+        }
+    </script>
+
+    <div th:replace="~{admin/header :: header}"></div>
+
+    <!-- =========================================
+        Main
+    ========================================== -->
+
+    <main class="container">
+
+        <!-- Page Title -->
+
+        <section class="page">
+
+            <div class="page-title">
+
+                <div class="title-left">
+
+                    <img src="/admin/images/icon_popup.png" alt="" class="title-icon">
+
+                    <h2>팝업관리</h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- Form -->
+
+            <form>
+
+                <div class="form-table">
+
+                    <table>
+
+                        <colgroup>
+
+                            <col style="width:190px;">
+                            <col>
+
+                        </colgroup>
+
+                        <tbody>
+
+                            <!-- 제목 -->
+
+                            <tr>
+
+                                <th>
+                                    제목
+                                </th>
+
+                                <td>
+
+                                    <input
+                                        type="text"
+                                        class="form-input"
+                                        id="puTitle"
+                                        placeholder="제목을 입력하세요.">
+
+                                </td>
+
+                            </tr>
+
+                            <!-- 이미지 -->
+
+                            <tr>
+
+                                <th>
+                                    파일 이미지 업로드
+                                </th>
+
+                                <td>
+
+                                    <div class="upload-box">
+
+                                        <input
+                                            type="file"
+                                            id="popupImage"
+                                            accept="image/jpeg,image/png"
+                                            hidden>
+
+                                        <label
+                                            for="popupImage"
+                                            class="upload-area">
+
+                                            <img
+                                                id="imagePreview"
+                                                src=""
+                                                alt="이미지 미리보기"
+                                                style="display: none;">
+
+                                            <div class="upload-icon">
+
+                                                +
+
+                                            </div>
+
+                                            <strong>
+
+                                                이미지를 업로드 하세요
+
+                                            </strong>
+
+                                            <p>
+
+                                                (JPG, PNG, max 5MB)
+
+                                            </p>
+
+                                            <span class="btn-upload">
+
+                                                이미지 선택
+
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            <!-- 노출기간 -->
+
+                            <tr>
+
+                                <th>
+                                    노출 기간 설정
+                                </th>
+
+                                <td>
+
+                                    <div class="date-group">
+
+                                        <input
+                                            type="date"
+                                            class="form-date"
+                                            id="puStartDt">
+
+                                        <span class="date-wave">
+
+                                            ~
+
+                                        </span>
+
+                                        <input
+                                            type="date"
+                                            class="form-date"
+                                            id="puEndDt">
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Bottom -->
+
+                <div class="form-btn">
+
+                    <button
+                        type="button"
+                        class="btn btn-gray"
+                        id="btn-cancel">
+
+                        취소하기
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="btn-save">
+
+                        등록하기
+
+                    </button>
+
+                </div>
+
+            </form>
+            
+
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>                        
