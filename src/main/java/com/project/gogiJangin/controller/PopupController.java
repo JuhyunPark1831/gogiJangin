@@ -23,7 +23,7 @@ public class PopupController {
                             Model model) {
         model.addAttribute("popupList", popupService.getPopupList(null, pageable));
         model.addAttribute("now", LocalDateTime.now());
-        return "/admin/popup/popup_list";
+        return "admin/popup/popup_list";
     }
 
     @PostMapping("/admin/popup/api/list.do")
@@ -32,19 +32,19 @@ public class PopupController {
                                   Model model) {
         model.addAttribute("popupList", popupService.getPopupList(requestDto, pageable));
         model.addAttribute("now", LocalDateTime.now());
-        return "/admin/popup/popup_list :: #popup-list";
+        return "admin/popup/popup_list :: #popup-list";
     }
 
     @GetMapping("/admin/popup/view.do/{puId}")
     public String popupView(Model model,
                             @PathVariable Long puId) {
         model.addAttribute("popupDetail", popupService.getPopupDetail(puId));
-        return "/admin/popup/popup_view";
+        return "admin/popup/popup_view";
     }
 
     @GetMapping("/admin/popup/write.do")
     public String popupWrite() {
-        return "/admin/popup/popup_write";
+        return "admin/popup/popup_write";
     }
 
     @PostMapping("/admin/popup/api/postPopup.do")

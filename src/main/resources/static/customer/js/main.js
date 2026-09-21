@@ -15,8 +15,8 @@ menuBtn.addEventListener("click", () => {
     menuBtn.classList.toggle("active", isActive);
 
     menuIcon.src = isActive
-        ? "./images/icon_close.png"
-        : "./images/icon_menu.png";
+        ? "/customer/images/icon_close.png"
+        : "/customer/images/icon_menu.png";
 
 });
 
@@ -27,7 +27,7 @@ gnbLinks.forEach(link => {
 
         gnb.classList.remove("active");
         menuBtn.classList.remove("active");
-        menuIcon.src = "./images/icon_menu.png";
+        menuIcon.src = "/customer/images/icon_menu.png";
 
     });
 
@@ -40,7 +40,7 @@ window.addEventListener("resize", () => {
 
         gnb.classList.remove("active");
         menuBtn.classList.remove("active");
-        menuIcon.src = "./images/icon_menu.png";
+        menuIcon.src = "/customer/images/icon_menu.png";
 
     }
 
@@ -101,33 +101,73 @@ window.addEventListener("scroll", () => {
 ================================================== */
 
 // 리뷰 슬라이드
-const reviewSwiper = new Swiper(".review-slider",{
+const reviewSlider = document.querySelector(".review-slider");
+const reviewWrapper = reviewSlider.querySelector(".swiper-wrapper");
 
-    effect:"coverflow",
+// 현재 HTML에 들어있는 실제 리뷰 개수
+const reviewSlides = Array.from(
+    reviewWrapper.querySelectorAll(".swiper-slide")
+);
 
-    centeredSlides:true,
-    slidesPerView:"auto",
+const reviewCount = reviewSlides.length;
 
-    loop:true,
 
-    speed:700,
+/*
+ * 리뷰가 적을 때 Swiper loop가 깨지지 않도록
+ * 실제 리뷰를 반복해서 최소 10개까지 채웁니다.
+ *
+ * 예)
+ * 3개 → 1 2 3 1 2 3 1 2 3
+ * 5개 → 1 2 3 4 5 1 2 3 4 5
+ */
+if (reviewCount < 6) {
 
-    autoplay:{
-        delay:2500,
-        disableOnInteraction:false
+    let cloneIndex = 0;
+
+    while (reviewWrapper.children.length < 10) {
+
+        const clone = reviewSlides[
+        cloneIndex % reviewCount
+            ].cloneNode(true);
+
+        reviewWrapper.appendChild(clone);
+
+        cloneIndex++;
+    }
+}
+
+
+/*
+ * 리뷰가 6개 이상이면 원본 그대로 사용하고,
+ * 6개 미만이면 위에서 복제본을 만들어
+ * Swiper loop가 안정적으로 동작하도록 합니다.
+ */
+const reviewSwiper = new Swiper(".review-slider", {
+
+    effect: "coverflow",
+
+    centeredSlides: true,
+    slidesPerView: "auto",
+
+    loop: true,
+
+    speed: 700,
+
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false
     },
 
-    coverflowEffect:{
-        rotate:0,
-        stretch:20,
-        depth:50,
-        modifier:1.3,
-        scale:.98,
-        slideShadows:false
+    coverflowEffect: {
+        rotate: 0,
+        stretch: 20,
+        depth: 50,
+        modifier: 1.3,
+        scale: .98,
+        slideShadows: false
     }
 
 });
-
 
 /* ==================================================
    AOS
@@ -417,7 +457,7 @@ gnbLinks.forEach(link => {
         // 모바일 메뉴 닫기
         gnb.classList.remove("active");
         menuBtn.classList.remove("active");
-        menuIcon.src = "./images/icon_menu.png";
+        menuIcon.src = "/customer/images/icon_menu.png";
 
         window.scrollTo({
             top: target.offsetTop - headerHeight,

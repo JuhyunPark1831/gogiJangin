@@ -26,7 +26,7 @@ public class FranchiseController {
                                 Model model) {
         model.addAttribute("franchiseList", franchiseService.getFranchiseList(null, pageable));
         model.addAttribute("now", LocalDateTime.now());
-        return "/admin/inquiry/inquiry_list";
+        return "admin/inquiry/inquiry_list";
     }
 
     @PostMapping("/admin/franchise/api/list.do")
@@ -35,14 +35,14 @@ public class FranchiseController {
                                   Model model) {
         model.addAttribute("franchiseList", franchiseService.getFranchiseList(requestDto, pageable));
         model.addAttribute("now", LocalDateTime.now());
-        return "/admin/inquiry/inquiry_list :: #franchise-list";
+        return "admin/inquiry/inquiry_list :: #franchise-list";
     }
 
     @GetMapping("/admin/franchise/view.do/{frId}")
     public String franchiseView(Model model,
                                 @PathVariable Long frId) {
         model.addAttribute("franchiseDetail", franchiseService.getFranchiseDetail(frId));
-        return "/admin/inquiry/inquiry_view";
+        return "admin/inquiry/inquiry_view";
     }
 
     @PostMapping("/franchise/api/inquireFranchise.do")

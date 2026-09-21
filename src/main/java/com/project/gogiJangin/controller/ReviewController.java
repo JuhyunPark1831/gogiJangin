@@ -24,7 +24,7 @@ public class ReviewController {
                              Model model) {
         model.addAttribute("reviewList", reviewService.getReviewList(null, pageable));
         model.addAttribute("now", LocalDateTime.now());
-        return "/admin/review/review_list";
+        return "admin/review/review_list";
     }
 
     @PostMapping("/admin/review/api/list.do")
@@ -33,19 +33,19 @@ public class ReviewController {
                                   Model model) {
         model.addAttribute("reviewList", reviewService.getReviewList(requestDto, pageable));
         model.addAttribute("now", LocalDateTime.now());
-        return "/admin/review/review_list :: #review-list";
+        return "admin/review/review_list :: #review-list";
     }
 
     @GetMapping("/admin/review/view.do/{rvId}")
     public String reviewView(Model model,
                              @PathVariable Long rvId) {
         model.addAttribute("reviewDetail", reviewService.getReviewDetail(rvId));
-        return "/admin/review/review_view";
+        return "admin/review/review_view";
     }
 
     @GetMapping("/admin/review/write.do")
     public String reviewWrite() {
-        return "/admin/review/review_write";
+        return "admin/review/review_write";
     }
 
     @PostMapping("/admin/review/api/addReview.do")

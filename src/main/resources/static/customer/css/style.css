@@ -216,7 +216,7 @@ main {overflow: hidden;}
     overflow: hidden;
 }
 .brand-top {
-    background: url('../images/brand/brand_bg.jpg') no-repeat;
+    background: url('/customer/images/brand/brand_bg.jpg') no-repeat;
     background-size: cover;
     min-height: 780px;
 }
@@ -2586,4 +2586,30 @@ main {overflow: hidden;}
     height:auto !important;
     overflow-y:auto !important;
     overflow-x:hidden !important;
+}
+
+/* =========================================
+   0901 추가 CSS - 모바일 리뷰 이미지 크기
+========================================= */
+
+@media (max-width: 768px) {
+
+    .review-slider .swiper-slide {
+        width: 80% !important;
+        max-width: 400px;
+    }
+
+    .review-card {
+        border-radius: 12px;
+    }
+
+}
+
+/* 모바일 일반 폰트 굵게 적용 */
+@media (max-width: 767px) {
+    .title-text h3 {
+        font-family: sans-serif !important;
+        font-weight: 700 !important;
+        letter-spacing:-1px
+    }
 }

@@ -19,6 +19,6 @@ public class MainController {
     public String index(Model model) {
         model.addAttribute("popupList", popupService.getActivePopupList());
         model.addAttribute("reviewList", reviewService.getActiveReviewList());
-        return "/customer/index";
+        return "customer/index";
     }
 }
