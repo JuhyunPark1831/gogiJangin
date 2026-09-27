@@ -3,6 +3,7 @@ package com.project.gogiJangin.common.config;
 import com.project.gogiJangin.entity.Account;
 import com.project.gogiJangin.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,8 @@ public class InitialAccountConfig {
     @Bean
     public CommandLineRunner initAccount(
             AccountRepository accountRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            @Value("${admin.initial-password}") String initialPassword
     ) {
         return args -> {
 
@@ -23,7 +25,7 @@ public class InitialAccountConfig {
 
                 Account account = Account.builder()
                         .acLoginId("admin")
-                        .acPassword(passwordEncoder.encode("1234"))
+                        .acPassword(passwordEncoder.encode(initialPassword))
                         .acName("관리자")
                         .build();
 
@@ -34,9 +36,6 @@ public class InitialAccountConfig {
 }
 
 /* todo
-1. 홈페이지 하단 정보 변경
-2. 관리자 사이트 비밀번호 설정
-3. 네이버, 구글 검색 결과 확인
-4. 주문 링크 설정
-5. 가맹문의 수정시
+1. 네이버, 구글 검색 결과 확인
+2. 주문 링크 설정
  */

@@ -2613,3 +2613,22 @@ main {overflow: hidden;}
         letter-spacing:-1px
     }
 }
+
+/* 배민로고 작업 0923 */
+.fixed-link {
+    display: flex;
+    position: fixed;
+    bottom: 5%;
+    right: 3%;
+    z-index: 30;
+    flex-direction: column;
+    gap: 15px;
+}
+.fixed-link .baemin-link {
+    cursor: pointer;
+    height: 90px;
+}
+.fixed-link .insta-link {
+    cursor: pointer;
+    height: 90px;
+}
